@@ -24,6 +24,8 @@ let currentUser = null;
 let currentPage = 'auth';
 
 // ===== AUTHENTICATION =====
+let isRegistering = false;
+
 function login(email, password) {
   const user = database.users.find(u => u.email === email && u.password === password);
   if (user) {
@@ -33,6 +35,48 @@ function login(email, password) {
   } else {
     alert('Неверный email или пароль');
   }
+}
+
+function register(name, email, password, passwordConfirm, role) {
+  // Валидация
+  if (!name || !email || !password || !role) {
+    alert('Заполни все поля');
+    return;
+  }
+  
+  if (password !== passwordConfirm) {
+    alert('Пароли не совпадают');
+    return;
+  }
+  
+  if (password.length < 4) {
+    alert('Пароль должен быть минимум 4 символа');
+    return;
+  }
+  
+  if (database.users.find(u => u.email === email)) {
+    alert('Этот email уже зарегистрирован');
+    return;
+  }
+  
+  // Создание нового пользователя
+  const newUser = {
+    id: Math.max(...database.users.map(u => u.id)) + 1,
+    name,
+    email,
+    role,
+    password
+  };
+  
+  database.users.push(newUser);
+  alert('✓ Аккаунт создан! Теперь войди с помощью email и пароля');
+  isRegistering = false;
+  renderApp();
+}
+
+function toggleRegister() {
+  isRegistering = !isRegistering;
+  renderApp();
 }
 
 function logout() {
@@ -155,6 +199,51 @@ function renderApp() {
 }
 
 function renderAuthPage() {
+  if (isRegistering) {
+    return `
+      <div class="auth-container">
+        <div class="auth-box">
+          <div class="auth-logo">🏥</div>
+          <h1>МедПорт</h1>
+          <p class="auth-subtitle">Создание аккаунта</p>
+          
+          <form id="register-form">
+            <div class="form-group">
+              <label>Полное имя</label>
+              <input type="text" id="reg-name" placeholder="Иван Иванов" required />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="reg-email" placeholder="example@clinic.ru" required />
+            </div>
+            <div class="form-group">
+              <label>Пароль</label>
+              <input type="password" id="reg-password" placeholder="Минимум 4 символа" required />
+            </div>
+            <div class="form-group">
+              <label>Подтверди пароль</label>
+              <input type="password" id="reg-password-confirm" placeholder="Повтори пароль" required />
+            </div>
+            <div class="form-group">
+              <label>Выбери свою роль</label>
+              <select id="reg-role" required>
+                <option value="">-- Выбери роль --</option>
+                <option value="patient">🧑 Пациент</option>
+                <option value="doctor">👨‍⚕️ Врач</option>
+                <option value="admin">👩‍💼 Администратор</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Зарегистрироваться →</button>
+          </form>
+          
+          <div class="auth-divider">или</div>
+          
+          <button type="button" class="btn btn-secondary" onclick="toggleRegister()">Уже есть аккаунт? Войти</button>
+        </div>
+      </div>
+    `;
+  }
+  
   return `
     <div class="auth-container">
       <div class="auth-box">
@@ -163,14 +252,10 @@ function renderAuthPage() {
         <p class="auth-subtitle">Онлайн-система поликлиники</p>
         
         <div class="demo-roles">
-          <h3>🧑 Попробуйте как пациент</h3>
-          <p>Email: <code>patient@clinic.ru</code> | Пароль: <code>1234</code></p>
-          
-          <h3>👨‍⚕️ Попробуйте как врач</h3>
-          <p>Email: <code>doctor@clinic.ru</code> | Пароль: <code>1234</code></p>
-          
-          <h3>👩‍💼 Попробуйте как админ</h3>
-          <p>Email: <code>admin@clinic.ru</code> | Пароль: <code>1234</code></p>
+          <h3>📝 Тестовые аккаунты</h3>
+          <p><strong>Пациент:</strong> patient@clinic.ru / 1234</p>
+          <p><strong>Врач:</strong> doctor@clinic.ru / 1234</p>
+          <p><strong>Админ:</strong> admin@clinic.ru / 1234</p>
         </div>
         
         <form id="login-form">
@@ -184,6 +269,10 @@ function renderAuthPage() {
           </div>
           <button type="submit" class="btn btn-primary">Войти →</button>
         </form>
+        
+        <div class="auth-divider">или</div>
+        
+        <button type="button" class="btn btn-secondary" onclick="toggleRegister()">Создать новый аккаунт</button>
       </div>
     </div>
   `;
@@ -463,7 +552,7 @@ function renderAdminDashboard() {
 
 // ===== EVENT LISTENERS =====
 function attachEventListeners() {
-  // Auth form
+  // Login form
   const loginForm = document.getElementById('login-form');
   if (loginForm) {
     loginForm.addEventListener('submit', (e) => {
@@ -471,6 +560,20 @@ function attachEventListeners() {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
       login(email, password);
+    });
+  }
+  
+  // Register form
+  const registerForm = document.getElementById('register-form');
+  if (registerForm) {
+    registerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('reg-name').value;
+      const email = document.getElementById('reg-email').value;
+      const password = document.getElementById('reg-password').value;
+      const passwordConfirm = document.getElementById('reg-password-confirm').value;
+      const role = document.getElementById('reg-role').value;
+      register(name, email, password, passwordConfirm, role);
     });
   }
   
