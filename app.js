@@ -1,145 +1,71 @@
-// ===== ENHANCED MEDICAL AI =====
-const medicalDB = {
-  // Ноги, стопы, нижние конечности
-  'ноги|нога|стопа|пальцы ног|голень|бедро|колено|икры|щиколотка': {
-    name: 'Ноги и нижние конечности',
-    answers: [
-      '🦵 **Ноги (нижние конечности)**: Состоят из бедра, голени, стопы. Основные проблемы: боли, отёки, варикоз, плоскостопие, спазмы. Профилактика: удобная обувь, физкультура, массаж, поднятие ног выше сердца при отёках. При постоянных болях обратитесь к неврологу или хирургу!',
-      '🦶 **Плоскостопие**: Своды стопы опущены. Симптомы: боли в ногах, усталость, нарушение осанки. Лечение: специальная обувь, стельки, упражнения для укрепления мышц стопы. Физиотерапия помогает!',
-      '⚠️ **Варикоз (расширение вен)**: Вены опухают, становятся заметны, может быть боль и судороги. Причины: генетика, беременность, сидячий образ жизни. Профилактика: компрессионные чулки, движение, не перегревать ноги. Лечение: лазер или хирургия в тяжелых случаях.'
-    ]
+// ===== MEDICAL AI SYSTEM =====
+const medicalAI = {
+  processQuestion: function(question) {
+    const q = question.toLowerCase().trim();
+    
+    // Нога, ноги, стопа
+    if (this.hasKeywords(q, ['нога', 'ноги', 'стопа', 'пальцы ног', 'голень', 'бедро', 'колено'])) {
+      return '🦵 **Ноги (нижние конечности)**: Состоят из бедра, голени, стопы. Основные проблемы: боли, отёки, варикоз, плоскостопие. Профилактика: удобная обувь, физкультура, массаж. При постоянных болях обратитесь к врачу!';
+    }
+    
+    // Сердце
+    if (this.hasKeywords(q, ['сердце', 'сердечн', 'кардио', 'давлени', 'гипертони', 'инфаркт', 'аритми', 'пульс'])) {
+      return '❤️ **Сердце и кровообращение**: Качает кровь по организму. Основные болезни: гипертония, инфаркт, аритмия. Профилактика: физкультура, здоровое питание, отказ от курения. Норма давления 120/80.';
+    }
+    
+    // Легкие, дыхание
+    if (this.hasKeywords(q, ['легкие', 'дыхани', 'кашел', 'пневмони', 'бронхит', 'астма', 'одышка'])) {
+      return '🫁 **Дыхательная система**: Вдыхают кислород, выдыхают CO2. Основные болезни: пневмония, бронхит, астма. Профилактика: отказ от курения, вентиляция, вакцины.';
+    }
+    
+    // Живот, пищеварение
+    if (this.hasKeywords(q, ['живот', 'желудок', 'кишечник', 'гастрит', 'язва', 'диарея', 'запор', 'рвота', 'тошнота'])) {
+      return '🍽️ **Пищеварение**: Правильное питание - ключ к здоровью. Ешьте маленькими порциями, пейте много воды. При болях в животе обратитесь к гастроэнтерологу.';
+    }
+    
+    // Голова, мозг
+    if (this.hasKeywords(q, ['голова', 'мозг', 'нервн', 'голов боль', 'мигрень', 'инсульт', 'паралич'])) {
+      return '🧠 **Нервная система**: При сильной головной боли, нарушении речи или слабости - СРОЧНО вызовите 911! Обычные головные боли помогут облегчить отдых, вода и прохладное место.';
+    }
+    
+    // Почки, мочевой
+    if (this.hasKeywords(q, ['почки', 'мочевой', 'нефрит', 'цистит', 'камни', 'моча', 'мочеиспускани'])) {
+      return '💧 **Почки и мочеполовая система**: Фильтруют кровь и производят мочу. Профилактика: пейте 2-3 литра воды в день, ограничьте соль. При боли в пояснице обратитесь к урологу.';
+    }
+    
+    // Кожа
+    if (this.hasKeywords(q, ['кожа', 'дерматит', 'экзема', 'псориаз', 'прыщи', 'акне', 'сыпь', 'грибок'])) {
+      return '🔴 **Кожа**: Самый большой орган. Используйте солнцезащиту, увлажняйте кожу. При сильных высыпаниях обратитесь к дерматологу.';
+    }
+    
+    // Глаза
+    if (this.hasKeywords(q, ['глаз', 'зрени', 'катаракта', 'глаукома', 'миопи', 'близоркость'])) {
+      return '👁️ **Глаза и зрение**: Делайте перерывы при работе за ПК каждые 20 минут. Используйте UV защиту. После 40 лет - ежегодные осмотры офтальмолога.';
+    }
+    
+    // Уши
+    if (this.hasKeywords(q, ['ухо', 'слух', 'отит', 'тугоухость', 'звон в ухе'])) {
+      return '👂 **Уши и слух**: Не используйте наушники громче 60%. При боли в ухе - срочно к отоларингологу. Защищайте уши от громких звуков.';
+    }
+    
+    // Зубы
+    if (this.hasKeywords(q, ['зуб', 'зубы', 'кариес', 'пародонтит', 'гингивит', 'десна', 'стоматолог'])) {
+      return '🦷 **Зубы и полость рта**: Чистите зубы 2 раза в день, используйте зубную нить. Посещайте стоматолога 2 раза в год.';
+    }
+    
+    // Здоровье, профилактика
+    if (this.hasKeywords(q, ['здоровье', 'профилактик', 'диета', 'питани', 'спорт', 'упражнени', 'физкультур', 'вес'])) {
+      return '🏥 **Здоровье - это образ жизни!** Ключевые факторы: здоровое питание (овощи, фрукты), 30 минут физкультуры в день, сон 7-9 часов, управление стрессом.';
+    }
+    
+    // Если не совпадает
+    return '❓ Я отвечаю на медицинские вопросы. Спросите про: болезни, органы, симптомы, здоровье, лечение. Например: "Что такое нога?", "Как лечить кашель?", "Симптомы гастрита?"';
   },
   
-  // Руки
-  'рук|рука|палец|кисть|локоть|плечо|предплечье|кулак': {
-    name: 'Руки и верхние конечности',
-    answers: [
-      '🙌 **Руки (верхние конечности)**: Состоят из плеча, локтя, предплечья, кисти. Основные проблемы: боли, онемение, спазмы, тендинит. Причины: перегрузка, неправильная осанка, синдром карпального канала. Профилактика: регулярные перерывы при работе за ПК, разминка, правильная осанка.',
-      '🖐️ **Синдром карпального канала**: Онемение и покалывание в пальцах (большой, указательный, средний). Вызвано сдавлением нерва в запястье. Лечение: ортез на ночь, противовоспалительные, физиотерапия. В тяжелых случаях - операция.',
-      '💪 **Тендинит (воспаление сухожилия)**: Боль в локте, запястье, при движении рукой. Причины: перегрузка (теннис, сверление). Лечение: отдых, лёд, компрессия, противовоспалительные, физиотерапия. Не игнорируйте - может перейти в хроническую форму!'
-    ]
-  },
-
-  // Голова, мозг, неврология
-  'голова|мозг|нервн|голов боль|мигрень|инсульт|паралич|судороги|головокруж|головокружен': {
-    name: 'Голова и нервная система',
-    answers: [
-      '🧠 **Головная боль**: Могут быть разные виды - напряжение, мигрень, кластерная. Причины: стресс, недосыпание, дегидратация, напряжение мышц шеи. Помощь: отдых, вода, аспирин/парацетамол, компресс, тёмное место. Если постоянно - к неврологу!',
-      '⚡ **Инсульт - СРОЧНО 911!**: Признаки - внезапная слабость половины тела, нарушение речи, перекос лица, головокружение, потеря зрения. НЕМЕДЛЕННО вызовите скорую! Каждая минута важна! Время = мозг!',
-      '🤕 **Мигрень**: Сильная пульсирующая боль на одной стороне головы, может быть тошнота, рвота, светобоязнь. Триггеры: стресс, гормоны, некоторые продукты, недосыпание. Помощь: тёмное место, триптаны, медитация. Профилактика важна!'
-    ]
-  },
-
-  // Живот, пищеварение
-  'живот|желудок|кишечник|гастрит|язва|диарея|запор|рвота|тошнота|боль живот|пищеварени': {
-    name: 'Живот и пищеварение',
-    answers: [
-      '🍽️ **Гастрит (воспаление желудка)**: Боль в верхней части живота, тошнота, изжога, отсутствие аппетита. Причины: стресс, острая пища, алкоголь, бактерия H. pylori. Лечение: мягкая диета, лекарства, антибиотики если бактерия. К гастроэнтерологу!',
-      '🚽 **Диарея**: Частый жидкий стул, может быть вызвана инфекцией, аллергией, стрессом. Лечение: много воды (чтобы не было обезвоживания), солевые растворы, диета (рис, банан, сухари), противодиарейные препараты. Если длится более 2 дней - к врачу!',
-      '⚠️ **Язва желудка**: Сильная боль в верхней части живота, может быть кровь в рвоте или чёрный стул. СЕРЬЕЗНО! Может кровоточить. Лечение: лекарства, диета, антибиотики. Избегайте спиртного, острого, кофеина!'
-    ]
-  },
-
-  // Сердце, давление
-  'сердце|сердечн|кардио|давлени|гипертони|инфаркт|аритми|пульс|холестерин': {
-    name: 'Сердце и кровообращение',
-    answers: [
-      '❤️ **Сердце**: Качает кровь по организму. Основные болезни: гипертония (высокое давление), инфаркт, аритмия. Профилактика: физкультура, здоровое питание (овощи, рыба), отказ от курения, контроль стресса. Норма давления: 120/80.',
-      '🏥 **Высокое давление (гипертония)**: Норма 120/80. Факторы риска: стресс, соль, ожирение, сидячий образ жизни, возраст. Лечение: DASH диета, физкультура, медикаменты, медитация. Измеряйте давление регулярно - опасно без симптомов!',
-      '⚡ **Аритмия (нарушение ритма)**: Неправильное сердцебиение, ощущение перебоев. Может быть опасна! Причины: кофеин, стресс, гормоны, болезнь сердца. Обязательна ЭКГ и консультация кардиолога!'
-    ]
-  },
-
-  // Легкие, дыхание
-  'легкие|дыхани|кашел|пневмони|бронхит|астма|одышка|респиратор|воздух': {
-    name: 'Легкие и дыхание',
-    answers: [
-      '🫁 **Легкие**: Органы дыхания. Вдыхают кислород, выдыхают CO2. Основные болезни: пневмония, бронхит, астма. Профилактика: отказ от курения, вентиляция, вакцины, избегайте загрязнения воздуха.',
-      '🤒 **Пневмония (воспаление легких)**: Кашель с мокротой, температура выше 38°C, боль в груди при дыхании, одышка. ОПАСНО! Нужна срочная помощь и антибиотики. НЕ занимайтесь самолечением!',
-      '💨 **Бронхит**: Кашель (сначала сухой, потом с мокротой), температура до 38°C, усталость. Лечение: питьё, увлажнитель, отхаркивающие, тепло. Если не проходит 2+ недели - к врачу!'
-    ]
-  },
-
-  // Почки, мочевой
-  'почки|мочевой|нефрит|цистит|уретрит|камни|моча|мочеиспускани': {
-    name: 'Почки и мочеполовая система',
-    answers: [
-      '💧 **Почки**: Фильтруют кровь, производят мочу. Основные болезни: нефрит, камни, почечная недостаточность. Профилактика: много воды, здоровое питание, контроль давления, отказ от алкоголя.',
-      '🪨 **Камни в почках**: Острая боль в пояснице, кровь в моче. Профилактика: пейте 2-3 литра воды в день, ограничьте кальций/оксалаты (шпинат, щавель). УЗИ помогает обнаружить.',
-      '🔥 **Цистит (воспаление мочевого пузыря)**: Боль при мочеиспускании, частые позывы, может быть температура. Лечение: антибиотики, много воды, тепло. К урологу!'
-    ]
-  },
-
-  // Общее здоровье, профилактика
-  'здоровье|профилактик|диета|питани|спорт|упражнени|физкультур|вес|ожирени|похудени': {
-    name: 'Общее здоровье',
-    answers: [
-      '🏥 **Здоровье - это образ жизни!** Ключевые факторы: здоровое питание (овощи, фрукты, цельные зёрна), физкультура (30 минут в день), сон 7-9 часов, управление стрессом (йога, медитация), отказ от вредных привычек.',
-      '💪 **Физкультура**: 30 минут активности в день укрепляет сердце, мышцы, кости. Выбирайте то, что нравится: ходьба, плавание, танцы, йога, бег. Разминка перед упражнениями важна!',
-      '🥗 **Здоровое питание**: Сбалансируйте: белки (мясо, рыба, яйца), жиры (оливковое масло, орехи), углеводы (цельные зёрна). Ешьте радугу - разные овощи и фрукты. Пейте 2+ литра воды в день!'
-    ]
-  },
-
-  // Кожа
-  'кожа|дерматит|экзема|псориаз|прыщи|акне|сыпь|грибок|лишай': {
-    name: 'Кожа',
-    answers: [
-      '🔴 **Кожа**: Самый большой орган. Защищает от инфекций, регулирует температуру. Основные проблемы: дерматит, экзема, прыщи, инфекции.',
-      '🧴 **Акне (прыщи)**: Вызывают бактерии и избыток кожного сала. Лечение: очищение, салициловая кислота, бензоилпероксид, витамин А. НЕ давите! К дерматологу в тяжелых случаях.',
-      '🌡️ **Экзема**: Хроническое воспаление, зуд, волдыри. Триггеры: мыло, аллергены, стресс. Помощь: увлажнение, ванны с овсянкой, гормональные мази. Избегайте триггеров!'
-    ]
-  },
-
-  // Глаза
-  'глаз|зрени|катаракта|глаукома|миопи|близоркость|дальнозоркость|астигматизм': {
-    name: 'Глаза и зрение',
-    answers: [
-      '👁️ **Глаза**: Органы зрения. Основные болезни: близорукость, дальнозоркость, катаракта, глаукома. Профилактика: UV защита, перерывы при ПК (20-20-20 правило: каждые 20 минут смотрите на 20 метров 20 секунд).',
-      '🔍 **Близорукость (миопия)**: Видно хорошо близко, далеко размыто. Помощь: очки, линзы, возможна LASIK операция. Берегите глаза - частые перерывы при работе за экраном!',
-      '⚠️ **Глаукома**: Повышенное давление в глазу повреждает зрительный нерв. ОПАСНА - может привести к слепоте! Часто бессимптомна. Нужны регулярные осмотры офтальмолога после 40 лет!'
-    ]
-  },
-
-  // Уши
-  'ухо|слух|отит|тугоухость|звон в ухе|тиннитус': {
-    name: 'Уши и слух',
-    answers: [
-      '👂 **Ухо и слух**: Орган слуха состоит из наружного уха, среднего уха, внутреннего уха. Основные болезни: отит, потеря слуха, тиннитус.',
-      '🔊 **Отит (воспаление уха)**: Боль в ухе, может быть выделение, температура. ОПАСНО - может привести к менингиту! Лечение: антибиотики, обезболивающие. К отоларингологу срочно!',
-      '🔔 **Тиннитус (звон в ушах)**: Постоянный звон, шум, щелканье. Причины: повреждение клеток, стресс, некоторые лекарства. Лечение: звуковая терапия, снижение стресса, когнитивная терапия.'
-    ]
-  },
-
-  // Зубы
-  'зуб|зубы|кариес|пародонтит|пульпит|гингивит|десна|стоматолог': {
-    name: 'Зубы и полость рта',
-    answers: [
-      '🦷 **Зубы**: Нужны для жевания. Основные болезни: кариес, пародонтит, воспаление десен. Профилактика: чистка 2 раза в день, зубная нить, частые осмотры стоматолога.',
-      '🪥 **Кариес (разрушение зуба)**: Вызывают бактерии и сахар. Профилактика: чистка, нить, избегайте сахара. Лечение: пломба. НЕ запускайте - может привести к потере зуба!',
-      '🩸 **Пародонтит (воспаление десен)**: Кровоточивость, гноение, шатание зубов. ОПАСНО - может привести к потере зубов! Лечение: профессиональная чистка, гигиена, антибиотики. К стоматологу!'
-    ]
+  hasKeywords: function(text, keywords) {
+    return keywords.some(kw => text.includes(kw));
   }
 };
-
-function getAIResponse(question) {
-  const q = question.toLowerCase().trim();
-  
-  if (!q) return '❓ Пожалуйста, задайте вопрос про здоровье, болезни или органы человека. Я помогу!';
-  
-  // Ищем совпадение в базе знаний
-  for (let key in medicalDB) {
-    const keywords = key.split('|');
-    for (let keyword of keywords) {
-      if (q.includes(keyword)) {
-        const answers = medicalDB[key].answers;
-        return answers[Math.floor(Math.random() * answers.length)];
-      }
-    }
-  }
-  
-  // Если вообще не медицинское
-  return '❌ Я отвечаю только на медицинские вопросы про здоровье, болезни и органы человека. Спросите что-то вроде: "Что такое нога?", "Как лечить кашель?", "Симптомы диабета?", "Что такое сердце?"';
-}
 
 // ===== DATABASE WITH LOCALSTORAGE =====
 let database = {
@@ -147,17 +73,23 @@ let database = {
     { id: 1, name: 'Главный администратор', email: 'abboskulovtoxir@gmail.com', role: 'admin', password: '10052005', blocked: false, createdAt: new Date().toISOString() }
   ],
   doctors: [
-    { id: 1, name: 'Доктор Смирнов', specialty: 'Терапевт', rating: 4.8, experience: '12 лет' },
-    { id: 2, name: 'Доктор Петрова', specialty: 'Кардиолог', rating: 4.9, experience: '15 лет' },
-    { id: 3, name: 'Доктор Сидоров', specialty: 'Невролог', rating: 4.7, experience: '8 лет' }
+    { id: 1, name: 'Доктор Смирнов', specialty: 'Терапевт', rating: 4.8, experience: '12 лет', votes: 50 },
+    { id: 2, name: 'Доктор Петрова', specialty: 'Кардиолог', rating: 4.9, experience: '15 лет', votes: 60 },
+    { id: 3, name: 'Доктор Сидоров', specialty: 'Невролог', rating: 4.7, experience: '8 лет', votes: 40 }
   ],
   appointments: [],
   medicalRecords: [],
-  articles: [],
-  logs: []
+  ratings: [],
+  articles: [
+    { id: 1, title: '10 советов для здоровья сердца', category: 'Кардиология', icon: '❤️', content: 'Регулярные физические упражнения, здоровое питание, контроль давления, отказ от курения - ключи к здоровью сердца.', createdAt: new Date().toISOString() },
+    { id: 2, title: 'Профилактика простуды и гриппа', category: 'Иммунология', icon: '🤧', content: 'Мойте руки часто, избегайте тесного контакта с больными, используйте маску в общественных местах.', createdAt: new Date().toISOString() },
+    { id: 3, title: 'Правильное питание для здоровья', category: 'Диетология', icon: '🥗', content: 'Ешьте много овощей, фруктов, цельных зёрен. Ограничьте сладкое, жирное, солёное.', createdAt: new Date().toISOString() },
+    { id: 4, title: 'Упражнения для спины', category: 'Спортивная медицина', icon: '💪', content: 'Регулярные упражнения помогут избежать боли в спине. Консультируйтесь с физиотерапевтом.', createdAt: new Date().toISOString() },
+    { id: 5, title: 'Стресс и здоровье', category: 'Психология', icon: '🧘', content: 'Медитация, йога, прогулки на природе помогают снизить стресс и улучшить здоровье.', createdAt: new Date().toISOString() },
+    { id: 6, title: 'Здоровый сон - залог здоровья', category: 'Неврология', icon: '😴', content: 'Спите 7-9 часов в день, избегайте ночных смартфонов, создайте комфортные условия для сна.', createdAt: new Date().toISOString() }
+  ]
 };
 
-// Загрузить данные из localStorage
 function loadDatabase() {
   const saved = localStorage.getItem('medportData');
   if (saved) {
@@ -165,7 +97,6 @@ function loadDatabase() {
   }
 }
 
-// Сохранить данные в localStorage
 function saveDatabase() {
   localStorage.setItem('medportData', JSON.stringify(database));
 }
@@ -179,11 +110,11 @@ let showAIChat = false;
 function login(email, password) {
   const user = database.users.find(u => u.email === email && u.password === password);
   if (!user) {
-    alert('Неверный email или пароль');
+    alert('❌ Неверный email или пароль');
     return;
   }
   if (user.blocked) {
-    alert('Ваш аккаунт заблокирован. Обратитесь к администратору.');
+    alert('⚠️ Ваш аккаунт заблокирован');
     return;
   }
   currentUser = { ...user };
@@ -192,19 +123,19 @@ function login(email, password) {
 
 function register(name, email, password, passwordConfirm) {
   if (!name || !email || !password) {
-    alert('Заполни все поля');
+    alert('❌ Заполни все поля');
     return;
   }
   if (password !== passwordConfirm) {
-    alert('Пароли не совпадают');
+    alert('❌ Пароли не совпадают');
     return;
   }
   if (password.length < 4) {
-    alert('Пароль должен быть минимум 4 символа');
+    alert('❌ Пароль минимум 4 символа');
     return;
   }
   if (database.users.find(u => u.email === email)) {
-    alert('Этот email уже зарегистрирован');
+    alert('❌ Email уже зарегистрирован');
     return;
   }
   
@@ -220,7 +151,7 @@ function register(name, email, password, passwordConfirm) {
   
   database.users.push(newUser);
   saveDatabase();
-  alert('✓ Аккаунт создан! Теперь войди со своими данными');
+  alert('✓ Аккаунт создан!');
   isRegistering = false;
   renderApp();
 }
@@ -237,7 +168,64 @@ function logout() {
   renderApp();
 }
 
+// ===== APPOINTMENTS =====
+function bookAppointment(doctorId, date, time) {
+  const appointment = {
+    id: Math.max(...database.appointments.map(a => a.id), 0) + 1,
+    patientId: currentUser.id,
+    doctorId,
+    date,
+    time,
+    status: 'scheduled',
+    createdAt: new Date().toISOString()
+  };
+  database.appointments.push(appointment);
+  saveDatabase();
+  alert('✓ Запись на приём создана!');
+  renderApp();
+}
+
+function cancelAppointment(appointmentId) {
+  database.appointments = database.appointments.filter(a => a.id !== appointmentId);
+  saveDatabase();
+  alert('✓ Запись отменена');
+  renderApp();
+}
+
+function rateDoctor(doctorId, rating) {
+  const rate = {
+    id: Math.max(...database.ratings.map(r => r.id), 0) + 1,
+    patientId: currentUser.id,
+    doctorId,
+    rating,
+    createdAt: new Date().toISOString()
+  };
+  database.ratings.push(rate);
+  
+  const doctor = database.doctors.find(d => d.id === doctorId);
+  if (doctor) {
+    const doctorRatings = database.ratings.filter(r => r.doctorId === doctorId);
+    const avgRating = doctorRatings.reduce((sum, r) => sum + r.rating, 0) / doctorRatings.length;
+    doctor.rating = parseFloat(avgRating.toFixed(1));
+    doctor.votes = doctorRatings.length;
+  }
+  
+  saveDatabase();
+  alert('✓ Спасибо за оценку!');
+  renderApp();
+}
+
 // ===== ADMIN FUNCTIONS =====
+function promoteToAdmin(userId) {
+  const user = database.users.find(u => u.id === userId);
+  if (user && user.role !== 'admin') {
+    user.role = 'admin';
+    saveDatabase();
+    alert(`✓ ${user.name} теперь администратор!`);
+    renderApp();
+  }
+}
+
 function changeUserPassword(userId, newPassword) {
   const user = database.users.find(u => u.id === userId);
   if (user) {
@@ -264,7 +252,7 @@ function removeUser(userId) {
     alert('⚠️ Нельзя удалить администратора!');
     return;
   }
-  if (confirm(`Вы уверены, что хотите удалить пользователя ${user.name}?`)) {
+  if (confirm(`Удалить пользователя ${user.name}?`)) {
     database.users = database.users.filter(u => u.id !== userId);
     saveDatabase();
     alert('✓ Пользователь удалён');
@@ -272,27 +260,17 @@ function removeUser(userId) {
   }
 }
 
-function promoteToAdmin(userId) {
-  const user = database.users.find(u => u.id === userId);
-  if (user && user.role !== 'admin') {
-    user.role = 'admin';
-    saveDatabase();
-    alert(`✓ ${user.name} теперь администратор!`);
-    renderApp();
-  }
-}
-
 function createDoctorAccount(name, email, password) {
   if (!name || !email || !password) {
-    alert('Заполни все поля');
+    alert('❌ Заполни все поля');
     return;
   }
   if (password.length < 4) {
-    alert('Пароль должен быть минимум 4 символа');
+    alert('❌ Пароль минимум 4 символа');
     return;
   }
   if (database.users.find(u => u.email === email)) {
-    alert('Этот email уже существует');
+    alert('❌ Email уже существует');
     return;
   }
   
@@ -310,6 +288,48 @@ function createDoctorAccount(name, email, password) {
   saveDatabase();
   alert(`✓ Врач ${name} создан!`);
   renderApp();
+}
+
+function publishArticle(title, category, icon, content) {
+  if (!title || !category || !content) {
+    alert('❌ Заполни все поля');
+    return;
+  }
+  
+  const article = {
+    id: Math.max(...database.articles.map(a => a.id), 0) + 1,
+    title,
+    category,
+    icon,
+    content,
+    createdAt: new Date().toISOString()
+  };
+  
+  database.articles.push(article);
+  saveDatabase();
+  alert('✓ Статья опубликована!');
+  renderApp();
+}
+
+function deleteArticle(articleId) {
+  if (confirm('Удалить статью?')) {
+    database.articles = database.articles.filter(a => a.id !== articleId);
+    saveDatabase();
+    alert('✓ Статья удалена');
+    renderApp();
+  }
+}
+
+function getStatistics() {
+  return {
+    totalUsers: database.users.length,
+    totalPatients: database.users.filter(u => u.role === 'patient').length,
+    totalDoctors: database.users.filter(u => u.role === 'doctor').length,
+    totalAdmins: database.users.filter(u => u.role === 'admin').length,
+    blockedUsers: database.users.filter(u => u.blocked).length,
+    totalAppointments: database.appointments.length,
+    completedAppointments: database.appointments.filter(a => a.status === 'completed').length
+  };
 }
 
 // ===== RENDER FUNCTIONS =====
@@ -409,12 +429,11 @@ function renderAuthPage() {
           <button type="button" class="btn btn-secondary" onclick="toggleRegister()">Создать аккаунт</button>
           
           <div class="features-preview">
-            <h3>✨ Что вас ждёт:</h3>
+            <h3>✨ Возможности:</h3>
             <div class="feature-item">📅 Запись к врачу онлайн</div>
+            <div class="feature-item">⭐ Оценка врачей</div>
+            <div class="feature-item">💬 AI помощник 24/7</div>
             <div class="feature-item">📋 Электронная медкарта</div>
-            <div class="feature-item">💬 Консультации с врачами</div>
-            <div class="feature-item">🤖 AI ассистент 24/7</div>
-            <div class="feature-item">📚 Медицинские статьи</div>
           </div>
         </div>
       </div>
@@ -423,13 +442,15 @@ function renderAuthPage() {
 }
 
 function renderPatientDashboard() {
+  const appointments = database.appointments.filter(a => a.patientId === currentUser.id);
+  
   return `
     <div class="dashboard">
       <nav class="navbar">
         <div class="navbar-logo">🏥 МедПорт</div>
         <div class="navbar-user">
           <span>${currentUser.name}</span>
-          <button class="btn btn-sm" onclick="toggleAIChat()" title="Медицинский AI ассистент">🤖 AI</button>
+          <button class="btn btn-sm" onclick="toggleAIChat()">🤖 AI</button>
           <button class="btn btn-sm" onclick="logout()">Выход</button>
         </div>
       </nav>
@@ -442,7 +463,7 @@ function renderPatientDashboard() {
           </div>
           <div class="ai-messages" id="ai-messages">
             <div class="ai-message bot-msg">
-              <div class="msg-text">Привет! 👋 Я здесь, чтобы помочь с медицинскими вопросами. Спросите про болезни, органы, симптомы, лечение. Например: "Что такое нога?", "Как лечить кашель?", "Симптомы гастрита?"</div>
+              <div class="msg-text">Привет! Спросите про здоровье, болезни, симптомы или лечение.</div>
             </div>
           </div>
           <div class="ai-input-box">
@@ -456,26 +477,103 @@ function renderPatientDashboard() {
         <h1>🧑 Кабинет пациента</h1>
         
         <div class="welcome-box">
-          <h2>Добро пожаловать, ${currentUser.name}! 👋</h2>
-          <p>Используйте AI ассистент для вопросов про здоровье, запишитесь к врачу или прочитайте статьи про медицину.</p>
+          <h2>Добро пожаловать, ${currentUser.name}!</h2>
+          <p>Запишитесь к врачу, поставьте оценку или поговорите с AI ассистентом.</p>
         </div>
         
-        <div class="quick-actions">
-          <a href="#" class="action-card" onclick="alert('Функция запуска к врачу в разработке'); return false;">
-            <div class="action-icon">📅</div>
-            <h3>Запись к врачу</h3>
-            <p>Скоро доступно</p>
-          </a>
-          <a href="#" class="action-card" onclick="toggleAIChat(); return false;">
-            <div class="action-icon">🤖</div>
-            <h3>AI Помощник</h3>
-            <p>Вопросы про здоровье</p>
-          </a>
-          <a href="#" class="action-card" onclick="alert('Статьи в разработке'); return false;">
-            <div class="action-icon">📚</div>
-            <h3>Статьи про здоровье</h3>
-            <p>15+ медицинских статей</p>
-          </a>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value">${appointments.length}</div>
+            <div class="stat-label">Записей к врачу</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">${database.doctors.length}</div>
+            <div class="stat-label">Врачей в системе</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">⭐ 4.8</div>
+            <div class="stat-label">Средний рейтинг</div>
+          </div>
+        </div>
+        
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="appointments">📅 Мои записи</button>
+          <button class="tab-btn" data-tab="doctors">👨‍⚕️ Врачи</button>
+          <button class="tab-btn" data-tab="book">✏️ Новая запись</button>
+          <button class="tab-btn" data-tab="articles">📰 Статьи</button>
+        </div>
+        
+        <div class="tab-content" id="appointments">
+          <h2>Ваши записи к врачу</h2>
+          ${appointments.length === 0 ? '<p class="no-data">Нет активных записей</p>' : `
+            <div class="card-grid">
+              ${appointments.map(a => {
+                const doctor = database.doctors.find(d => d.id === a.doctorId);
+                return `
+                  <div class="card">
+                    <h3>${doctor.name}</h3>
+                    <p><strong>Специальность:</strong> ${doctor.specialty}</p>
+                    <p><strong>Дата:</strong> ${a.date} в ${a.time}</p>
+                    <p><strong>Статус:</strong> <span class="badge">${a.status === 'completed' ? '✓ Завершено' : '📅 Назначено'}</span></p>
+                    <button class="btn btn-danger btn-sm" onclick="cancelAppointment(${a.id})">Отменить</button>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          `}
+        </div>
+        
+        <div class="tab-content hidden" id="doctors">
+          <h2>Наши врачи</h2>
+          <div class="card-grid">
+            ${database.doctors.map(d => `
+              <div class="card">
+                <h3>${d.name}</h3>
+                <p><strong>Специальность:</strong> ${d.specialty}</p>
+                <p><strong>Опыт:</strong> ${d.experience}</p>
+                <p><strong>Рейтинг:</strong> ⭐ ${d.rating} (${d.votes} оценок)</p>
+                <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                  <button class="btn btn-primary btn-sm" onclick="openRatingForm(${d.id})">⭐ Оценить</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        
+        <div class="tab-content hidden" id="book">
+          <h2>Запись к врачу</h2>
+          <form id="book-form" class="form-box">
+            <div class="form-group">
+              <label>Выберите врача</label>
+              <select id="doctor-select" required>
+                <option value="">-- Выберите врача --</option>
+                ${database.doctors.map(d => `<option value="${d.id}">${d.name} (${d.specialty})</option>`).join('')}
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Дата приёма</label>
+              <input type="date" id="appointment-date" required />
+            </div>
+            <div class="form-group">
+              <label>Время приёма</label>
+              <input type="time" id="appointment-time" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Записаться →</button>
+          </form>
+        </div>
+        
+        <div class="tab-content hidden" id="articles">
+          <h2>📰 Статьи о здоровье</h2>
+          <div class="card-grid">
+            ${database.articles.map(a => `
+              <div class="card">
+                <div style="font-size: 2rem; margin-bottom: 1rem;">${a.icon}</div>
+                <h3>${a.title}</h3>
+                <p><strong>Категория:</strong> <span class="badge">${a.category}</span></p>
+                <p style="margin-top: 1rem; line-height: 1.6;">${a.content}</p>
+              </div>
+            `).join('')}
+          </div>
         </div>
       </div>
     </div>
@@ -483,6 +581,10 @@ function renderPatientDashboard() {
 }
 
 function renderDoctorDashboard() {
+  const doctor = database.doctors.find(d => d.name === currentUser.name);
+  const appointments = database.appointments.filter(a => a.doctorId === doctor?.id);
+  const stats = getStatistics();
+  
   return `
     <div class="dashboard">
       <nav class="navbar">
@@ -494,13 +596,45 @@ function renderDoctorDashboard() {
       </nav>
       <div class="container">
         <h1>👨‍⚕️ Кабинет врача</h1>
-        <p>Функционал врача в разработке...</p>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value">${appointments.length}</div>
+            <div class="stat-label">Приёмов</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">⭐ ${doctor?.rating || 0}</div>
+            <div class="stat-label">Рейтинг</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">${doctor?.experience || 'н/д'}</div>
+            <div class="stat-label">Опыт работы</div>
+          </div>
+        </div>
+        
+        <h2>📅 Расписание приёмов</h2>
+        ${appointments.length === 0 ? '<p class="no-data">Нет записанных приёмов</p>' : `
+          <div class="card-grid">
+            ${appointments.map(a => {
+              const patient = database.users.find(u => u.id === a.patientId);
+              return `
+                <div class="card">
+                  <h3>${patient.name}</h3>
+                  <p><strong>Дата:</strong> ${a.date} в ${a.time}</p>
+                  <p><strong>Статус:</strong> <span class="badge">${a.status}</span></p>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `}
       </div>
     </div>
   `;
 }
 
 function renderAdminDashboard() {
+  const stats = getStatistics();
+  
   return `
     <div class="dashboard">
       <nav class="navbar">
@@ -515,30 +649,36 @@ function renderAdminDashboard() {
         
         <div class="stats-grid">
           <div class="stat-card">
-            <div class="stat-value">${database.users.length}</div>
-            <div class="stat-label">Всего пользователей</div>
+            <div class="stat-value">${stats.totalUsers}</div>
+            <div class="stat-label">Пользователей</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value">${database.users.filter(u => u.role === 'patient').length}</div>
+            <div class="stat-value">${stats.totalPatients}</div>
             <div class="stat-label">Пациентов</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value">${database.users.filter(u => u.role === 'doctor').length}</div>
+            <div class="stat-value">${stats.totalDoctors}</div>
             <div class="stat-label">Врачей</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value">${database.users.filter(u => u.role === 'admin').length}</div>
+            <div class="stat-value">${stats.totalAdmins}</div>
             <div class="stat-label">Администраторов</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value">${database.users.filter(u => u.blocked).length}</div>
-            <div class="stat-label">Заблокировано</div>
+            <div class="stat-value">${stats.totalAppointments}</div>
+            <div class="stat-label">Всего приёмов</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">${stats.completedAppointments}</div>
+            <div class="stat-label">Завершённых</div>
           </div>
         </div>
         
         <div class="tabs">
           <button class="tab-btn active" data-tab="users">👥 Пользователи</button>
+          <button class="tab-btn" data-tab="appointments">📅 Записи</button>
           <button class="tab-btn" data-tab="create-doctor">➕ Создать врача</button>
+          <button class="tab-btn" data-tab="articles">📰 Статьи</button>
         </div>
         
         <div class="tab-content" id="users">
@@ -549,24 +689,52 @@ function renderAdminDashboard() {
                 <h3>${u.name}</h3>
                 <p><strong>Email:</strong> ${u.email}</p>
                 <p><strong>Роль:</strong> <span class="badge">${u.role}</span></p>
-                <p><strong>Статус:</strong> <span class="badge ${u.blocked ? 'badge-danger' : 'badge-success'}">${u.blocked ? 'Заблокирован' : 'Активен'}</span></p>
-                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <p><strong>Статус:</strong> <span class="badge ${u.blocked ? 'badge-danger' : 'badge-success'}">${u.blocked ? '❌ Заблокирован' : '✓ Активен'}</span></p>
+                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; font-size: 0.8rem;">
                   ${u.role !== 'admin' ? `
-                    <button class="btn btn-sm btn-primary" onclick="blockUser(${u.id})">${u.blocked ? 'Разблокировать' : 'Заблокировать'}</button>
-                    ${u.role !== 'admin' ? `<button class="btn btn-sm btn-secondary" onclick="promoteToAdmin(${u.id})">Сделать админом</button>` : ''}
-                    <button class="btn btn-sm btn-secondary" onclick="alert('Введите новый пароль'); const p = prompt('Новый пароль:'); if (p) changeUserPassword(${u.id}, p)">Смена пароля</button>
-                    <button class="btn btn-sm btn-danger" onclick="removeUser(${u.id})">Удалить</button>
-                  ` : `
-                    <span style="color: #1e90ff; padding: 0.5rem; font-weight: 600;">Администратор</span>
-                  `}
+                    <button class="btn btn-primary btn-sm" onclick="promoteToAdmin(${u.id})">👑 Админ</button>
+                    <button class="btn btn-secondary btn-sm" onclick="changePassword(${u.id})">🔑 Пароль</button>
+                    <button class="btn btn-secondary btn-sm" onclick="blockUser(${u.id})">${u.blocked ? '🔓 Разблок' : '🔒 Блок'}</button>
+                    <button class="btn btn-danger btn-sm" onclick="removeUser(${u.id})">🗑️ Удалить</button>
+                  ` : '<span style="color: #00d4ff; font-weight: 600;">Администратор</span>'}
                 </div>
               </div>
             `).join('')}
           </div>
         </div>
         
+        <div class="tab-content hidden" id="appointments">
+          <h2>Все записи к врачам</h2>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Пациент</th>
+                <th>Врач</th>
+                <th>Дата</th>
+                <th>Время</th>
+                <th>Статус</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${database.appointments.map(a => {
+                const patient = database.users.find(u => u.id === a.patientId);
+                const doctor = database.doctors.find(d => d.id === a.doctorId);
+                return `
+                  <tr>
+                    <td>${patient?.name || 'н/д'}</td>
+                    <td>${doctor?.name || 'н/д'}</td>
+                    <td>${a.date}</td>
+                    <td>${a.time}</td>
+                    <td><span class="badge">${a.status}</span></td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+        
         <div class="tab-content hidden" id="create-doctor">
-          <h2>Создать врача</h2>
+          <h2>Создать аккаунт врача</h2>
           <form id="create-doctor-form" class="form-box">
             <div class="form-group">
               <label>Имя врача</label>
@@ -582,6 +750,46 @@ function renderAdminDashboard() {
             </div>
             <button type="submit" class="btn btn-primary">Создать врача →</button>
           </form>
+        </div>
+        
+        <div class="tab-content hidden" id="articles">
+          <h2>📰 Управление статьями</h2>
+          
+          <div style="margin-bottom: 2rem;">
+            <h3 style="margin-top: 0;">Опубликовать новую статью</h3>
+            <form id="publish-article-form" class="form-box">
+              <div class="form-group">
+                <label>Заголовок</label>
+                <input type="text" id="article-title" placeholder="Название статьи" required />
+              </div>
+              <div class="form-group">
+                <label>Категория</label>
+                <input type="text" id="article-category" placeholder="Например: Кардиология" required />
+              </div>
+              <div class="form-group">
+                <label>Иконка (эмодзи)</label>
+                <input type="text" id="article-icon" placeholder="❤️" required />
+              </div>
+              <div class="form-group">
+                <label>Содержание</label>
+                <textarea id="article-content" placeholder="Напишите содержание статьи..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Опубликовать →</button>
+            </form>
+          </div>
+          
+          <h3>Все статьи</h3>
+          <div class="card-grid">
+            ${database.articles.map(a => `
+              <div class="card">
+                <div style="font-size: 2rem; margin-bottom: 1rem;">${a.icon}</div>
+                <h3 style="margin-top: 0;">${a.title}</h3>
+                <p><strong>Категория:</strong> ${a.category}</p>
+                <p style="margin-top: 1rem;">${a.content}</p>
+                <button class="btn btn-danger btn-sm" onclick="deleteArticle(${a.id})">🗑️ Удалить</button>
+              </div>
+            `).join('')}
+          </div>
         </div>
       </div>
     </div>
@@ -600,7 +808,7 @@ function sendAIMessage() {
   
   if (!question) return;
   
-  const response = getAIResponse(question);
+  const response = medicalAI.processQuestion(question);
   const chatBox = document.getElementById('ai-messages');
   
   chatBox.innerHTML += `
@@ -614,6 +822,21 @@ function sendAIMessage() {
   
   chatBox.scrollTop = chatBox.scrollHeight;
   input.value = '';
+}
+
+// ===== HELPER FUNCTIONS =====
+function openRatingForm(doctorId) {
+  const rating = prompt('Оцените врача от 1 до 5:');
+  if (rating && rating >= 1 && rating <= 5) {
+    rateDoctor(doctorId, parseInt(rating));
+  }
+}
+
+function changePassword(userId) {
+  const newPass = prompt('Введите новый пароль:');
+  if (newPass && newPass.length >= 4) {
+    changeUserPassword(userId, newPass);
+  }
 }
 
 // ===== EVENT LISTENERS =====
@@ -648,6 +871,29 @@ function attachEventListeners() {
       const email = document.getElementById('doctor-email').value;
       const password = document.getElementById('doctor-password').value;
       createDoctorAccount(name, email, password);
+    });
+  }
+  
+  const bookForm = document.getElementById('book-form');
+  if (bookForm) {
+    bookForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const doctorId = parseInt(document.getElementById('doctor-select').value);
+      const date = document.getElementById('appointment-date').value;
+      const time = document.getElementById('appointment-time').value;
+      bookAppointment(doctorId, date, time);
+    });
+  }
+
+  const publishArticleForm = document.getElementById('publish-article-form');
+  if (publishArticleForm) {
+    publishArticleForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = document.getElementById('article-title').value;
+      const category = document.getElementById('article-category').value;
+      const icon = document.getElementById('article-icon').value;
+      const content = document.getElementById('article-content').value;
+      publishArticle(title, category, icon, content);
     });
   }
   
