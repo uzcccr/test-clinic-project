@@ -1,57 +1,100 @@
+// ===== SIMPLE AI RESPONSES =====
+const aiResponses = {
+  health: [
+    { keywords: ['давление', 'гипертония'], answer: '🩺 Высокое давление требует внимания. Рекомендуется: ограничить соль, регулярно заниматься спортом, медитировать. Проконсультируйтесь с врачом для назначения лечения!' },
+    { keywords: ['температура', 'жар', 'лихорадка'], answer: '🌡️ При температуре: пейте больше воды, отдыхайте, применяйте жаропонижающие препараты. Если температура выше 39°C более 3 дней - обратитесь к врачу!' },
+    { keywords: ['кашель'], answer: '🫁 При кашле помогает: тёплое молоко с мёдом, полоскание горла, увлажнитель воздуха. Если кашель не проходит 2 недели - запишитесь к терапевту!' },
+    { keywords: ['головная боль', 'мигрень'], answer: '🤕 Для облегчения головной боли: отдохните в тёмной комнате, пейте воду, применяйте обезболивающее. Проверьте, не ли это стресс или усталость!' },
+    { keywords: ['бессонница', 'не сплю'], answer: '😴 Советы для лучшего сна: ложитесь в одно время, избегайте гаджетов за час до сна, пейте успокаивающий чай, проветривайте комнату!' },
+    { keywords: ['стресс', 'тревога', 'паника'], answer: '🧘 От стресса помогает: дыхательные упражнения, медитация, йога, прогулки на свежем воздухе, здоровый сон. Если критично - обратитесь к психологу!' },
+    { keywords: ['диета', 'похудение', 'вес'], answer: '🥗 Здоровое питание: ешьте больше овощей и фруктов, пейте воду, ограничьте сахар и жиры. Консультируйтесь с диетологом для персональной программы!' },
+    { keywords: ['спорт', 'тренировка', 'фитнес'], answer: '💪 Регулярная физическая активность 30 минут в день укрепляет здоровье. Выбирайте вид спорта по интересам: ходьба, плавание, йога, бег!' },
+    { keywords: ['привет', 'привет', 'как дела', 'hello'], answer: '👋 Привет! Я здесь, чтобы помочь с вопросами о здоровье. Спросите меня о симптомах, профилактике или здоровом образе жизни!' },
+    { keywords: ['спасибо', 'thanks'], answer: '😊 Пожалуйста! Если у вас ещё есть вопросы - всегда готов помочь. Берегите своё здоровье!' }
+  ],
+  default: '🤔 Интересный вопрос! Рекомендую записаться на консультацию к врачу. Он даст вам профессиональный совет. Могу ещё чем-то помочь?'
+};
+
+function getAIResponse(question) {
+  const q = question.toLowerCase();
+  
+  for (let category of aiResponses.health) {
+    for (let keyword of category.keywords) {
+      if (q.includes(keyword)) {
+        return category.answer;
+      }
+    }
+  }
+  
+  return aiResponses.default;
+}
+
 // ===== DATABASE =====
 const database = {
   users: [
     { id: 1, name: 'Главный администратор', email: 'abboskulovtoxir@gmail.com', role: 'admin', password: '10052005' }
   ],
   doctors: [
-    { id: 1, name: 'Доктор Смирнов', specialty: 'Терапевт', rating: 4.8, experience: '12 лет' },
-    { id: 2, name: 'Доктор Петрова', specialty: 'Кардиолог', rating: 4.9, experience: '15 лет' },
-    { id: 3, name: 'Доктор Сидоров', specialty: 'Невролог', rating: 4.7, experience: '8 лет' }
+    { id: 1, name: 'Доктор Смирнов', specialty: 'Терапевт', rating: 4.8, experience: '12 лет', photo: '👨‍⚕️' },
+    { id: 2, name: 'Доктор Петрова', specialty: 'Кардиолог', rating: 4.9, experience: '15 лет', photo: '👩‍⚕️' },
+    { id: 3, name: 'Доктор Сидоров', specialty: 'Невролог', rating: 4.7, experience: '8 лет', photo: '👨‍⚕️' }
   ],
   appointments: [],
   medicalRecords: [],
   articles: [
     {
       id: 1,
-      title: '💪 Как укрепить иммунитет',
+      title: 'Как укрепить иммунитет',
       category: 'Профилактика',
-      icon: '🛡️',
-      content: 'Регулярная физическая активность, здоровое питание и достаточный сон — основа крепкого иммунитета. Не забывайте о витаминах и минералах!'
+      icon: '💪',
+      image: '🛡️',
+      content: 'Регулярная физическая активность, здоровое питание и достаточный сон — основа крепкого иммунитета. Не забывайте о витаминах и минералах!',
+      tips: ['Витамин C из цитрусовых', ' 7-9 часов сна', 'Упражнения 30 минут в день', 'Избегайте стресса']
     },
     {
       id: 2,
-      title: '❤️ Здоровье сердца',
+      title: 'Здоровье сердца',
       category: 'Кардиология',
-      icon: '💓',
-      content: 'Ограничьте соль и жиры, занимайтесь спортом 30 минут в день, и ваше сердце будет вам благодарно. Регулярные проверки спасают жизни!'
+      icon: '❤️',
+      image: '💓',
+      content: 'Ограничьте соль и жиры, занимайтесь спортом 30 минут в день, и ваше сердце будет вам благодарно. Регулярные проверки спасают жизни!',
+      tips: ['Контролируйте давление', 'Избегайте жирной пищи', 'Гуляйте каждый день', 'Медитируйте']
     },
     {
       id: 3,
-      title: '🧠 Здоровье мозга',
+      title: 'Здоровье мозга',
       category: 'Неврология',
       icon: '🧠',
-      content: 'Медитация, чтение и обучение новому — лучшие друзья вашего мозга. Не забывайте про качественный сон и избегайте стресса.'
+      image: '🧠',
+      content: 'Медитация, чтение и обучение новому — лучшие друзья вашего мозга. Не забывайте про качественный сон и избегайте стресса.',
+      tips: ['Решайте головоломки', 'Учитесь новому', 'Медитируйте 10 минут', 'Спите хорошо']
     },
     {
       id: 4,
-      title: '🥗 Правильное питание',
+      title: 'Правильное питание',
       category: 'Диетология',
-      icon: '🥕',
-      content: 'Ешьте больше овощей и фруктов, пейте воду, избегайте фастфуда. Сбалансированное питание — инвестиция в ваше здоровье.'
+      icon: '🥗',
+      image: '🥕',
+      content: 'Ешьте больше овощей и фруктов, пейте воду, избегайте фастфуда. Сбалансированное питание — инвестиция в ваше здоровье.',
+      tips: ['50% овощей', '2 литра воды', 'Меньше сахара', 'Больше клетчатки']
     },
     {
       id: 5,
-      title: '😴 Качество сна',
+      title: 'Качество сна',
       category: 'Здоровый образ жизни',
-      icon: '🌙',
-      content: 'Спите 7-9 часов, соблюдайте режим, избегайте гаджетов перед сном. Хороший сон — залог продуктивного дня и здоровья!'
+      icon: '😴',
+      image: '🌙',
+      content: 'Спите 7-9 часов, соблюдайте режим, избегайте гаджетов перед сном. Хороший сон — залог продуктивного дня и здоровья!',
+      tips: ['Режим сна', 'Без гаджетов за час', 'Прохладная комната', 'Полная темнота']
     },
     {
       id: 6,
-      title: '🏃 Физическая активность',
+      title: 'Физическая активность',
       category: 'Спорт',
       icon: '⚽',
-      content: 'Минимум 150 минут активности в неделю укрепляют сердце, мышцы и кости. Выбирайте вид спорта, который вам нравится!'
+      image: '🏃',
+      content: 'Минимум 150 минут активности в неделю укрепляют сердце, мышцы и кости. Выбирайте вид спорта, который вам нравится!',
+      tips: ['30 минут в день', 'Выбирайте интересный спорт', 'Разминка важна', 'Постепенное увеличение']
     }
   ]
 };
@@ -60,6 +103,7 @@ const database = {
 let currentUser = null;
 let currentPage = 'auth';
 let isRegistering = false;
+let showAIChat = false;
 
 // ===== AUTHENTICATION =====
 function login(email, password) {
@@ -117,7 +161,36 @@ function logout() {
   currentUser = null;
   currentPage = 'auth';
   isRegistering = false;
+  showAIChat = false;
   renderApp();
+}
+
+// ===== AI CHAT =====
+function toggleAIChat() {
+  showAIChat = !showAIChat;
+  renderApp();
+}
+
+function sendAIMessage() {
+  const input = document.getElementById('ai-input');
+  const question = input.value.trim();
+  
+  if (!question) return;
+  
+  const response = getAIResponse(question);
+  const chatBox = document.getElementById('ai-messages');
+  
+  chatBox.innerHTML += `
+    <div class="ai-message user-msg">
+      <div class="msg-text">👤 ${question}</div>
+    </div>
+    <div class="ai-message bot-msg">
+      <div class="msg-text">${response}</div>
+    </div>
+  `;
+  
+  chatBox.scrollTop = chatBox.scrollHeight;
+  input.value = '';
 }
 
 // ===== ADMIN FUNCTIONS =====
@@ -146,7 +219,7 @@ function createDoctorAccount(name, email, password) {
   };
   
   database.users.push(newDoctor);
-  alert(`✓ Врач ${name} создан! Email: ${email}`);
+  alert(`✓ Врач ${name} создан!`);
   renderApp();
 }
 
@@ -155,7 +228,7 @@ function changeUserRole(userId, newRole) {
   if (user && user.role !== 'admin') {
     user.role = newRole;
     const roleNames = { patient: 'пациент', doctor: 'врач', admin: 'администратор' };
-    alert(`✓ Роль пользователя ${user.name} изменена на ${roleNames[newRole]}`);
+    alert(`✓ Роль изменена на ${roleNames[newRole]}`);
     renderApp();
   } else {
     alert('⚠️ Нельзя изменить роль администратора!');
@@ -222,7 +295,6 @@ function getPatientMedicalRecords() {
 
 // ===== DOCTOR FUNCTIONS =====
 function getDoctorAppointments() {
-  const doctorUser = database.users.find(u => u.email === currentUser.email);
   return database.appointments
     .filter(a => {
       const doctorFromAppointment = database.doctors.find(d => d.id === a.doctorId);
@@ -273,39 +345,38 @@ function renderApp() {
 function renderAuthPage() {
   if (isRegistering) {
     return `
-      <div class="auth-container">
-        <div class="auth-box">
-          <div class="auth-logo">🏥</div>
-          <h1>МедПорт</h1>
-          <p class="auth-subtitle">Создание аккаунта пациента</p>
-          
-          <div class="info-box" style="margin-bottom: 1.5rem; background: linear-gradient(135deg, rgba(0,200,100,0.1), rgba(76,175,80,0.1));">
-            ℹ️ <strong>Добро пожаловать!</strong> Создайте аккаунт, чтобы записаться к врачу и получить доступ к своей медицинской карте
+      <div class="auth-page">
+        <div class="animated-bg"></div>
+        <div class="auth-container">
+          <div class="auth-box">
+            <div class="auth-logo">🏥</div>
+            <h1>МедПорт</h1>
+            <p class="auth-subtitle">Создание аккаунта</p>
+            
+            <form id="register-form">
+              <div class="form-group">
+                <label>Полное имя</label>
+                <input type="text" id="reg-name" placeholder="Иван Иванов" required />
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="reg-email" placeholder="example@clinic.ru" required />
+              </div>
+              <div class="form-group">
+                <label>Пароль</label>
+                <input type="password" id="reg-password" placeholder="Минимум 4 символа" required />
+              </div>
+              <div class="form-group">
+                <label>Подтверди пароль</label>
+                <input type="password" id="reg-password-confirm" placeholder="Повтори пароль" required />
+              </div>
+              <button type="submit" class="btn btn-primary">Зарегистрироваться →</button>
+            </form>
+            
+            <div class="auth-divider">или</div>
+            
+            <button type="button" class="btn btn-secondary" onclick="toggleRegister()">Уже есть аккаунт? Войти</button>
           </div>
-          
-          <form id="register-form">
-            <div class="form-group">
-              <label>Полное имя</label>
-              <input type="text" id="reg-name" placeholder="Иван Иванов" required />
-            </div>
-            <div class="form-group">
-              <label>Email</label>
-              <input type="email" id="reg-email" placeholder="example@clinic.ru" required />
-            </div>
-            <div class="form-group">
-              <label>Пароль</label>
-              <input type="password" id="reg-password" placeholder="Минимум 4 символа" required />
-            </div>
-            <div class="form-group">
-              <label>Подтверди пароль</label>
-              <input type="password" id="reg-password-confirm" placeholder="Повтори пароль" required />
-            </div>
-            <button type="submit" class="btn btn-primary">Зарегистрироваться →</button>
-          </form>
-          
-          <div class="auth-divider">или</div>
-          
-          <button type="button" class="btn btn-secondary" onclick="toggleRegister()">Уже есть аккаунт? Войти</button>
         </div>
       </div>
     `;
@@ -313,6 +384,7 @@ function renderAuthPage() {
   
   return `
     <div class="auth-page">
+      <div class="animated-bg"></div>
       <div class="auth-container">
         <div class="auth-box">
           <div class="auth-logo">🏥</div>
@@ -333,26 +405,26 @@ function renderAuthPage() {
           
           <div class="auth-divider">или</div>
           
-          <button type="button" class="btn btn-secondary" onclick="toggleRegister()">Создать аккаунт пациента</button>
+          <button type="button" class="btn btn-secondary" onclick="toggleRegister()">Создать аккаунт</button>
           
           <div class="features-preview">
             <h3>✨ Что вас ждёт:</h3>
             <div class="feature-item">📅 Запись к врачу онлайн</div>
             <div class="feature-item">📋 Электронная медкарта</div>
             <div class="feature-item">💬 Консультации с врачами</div>
-            <div class="feature-item">📊 История приёмов</div>
+            <div class="feature-item">🤖 AI ассистент 24/7</div>
           </div>
         </div>
       </div>
       
       <div class="articles-preview">
-        <h2>📚 Советы для здоровья</h2>
+        <h2>📚 Статьи про здоровье</h2>
         <div class="articles-grid">
           ${database.articles.slice(0, 3).map(a => `
             <div class="article-card">
               <div class="article-icon">${a.icon}</div>
               <h3>${a.title}</h3>
-              <p>${a.content}</p>
+              <p>${a.content.substring(0, 80)}...</p>
             </div>
           `).join('')}
         </div>
@@ -371,9 +443,28 @@ function renderPatientDashboard() {
         <div class="navbar-logo">🏥 МедПорт</div>
         <div class="navbar-user">
           <span>${currentUser.name}</span>
+          <button class="btn btn-sm" onclick="toggleAIChat()">🤖 AI Помощь</button>
           <button class="btn btn-sm" onclick="logout()">Выход</button>
         </div>
       </nav>
+      
+      ${showAIChat ? `
+        <div class="ai-chat">
+          <div class="ai-header">
+            <h3>🤖 AI Ассистент МедПорт</h3>
+            <button onclick="toggleAIChat()">✕</button>
+          </div>
+          <div class="ai-messages" id="ai-messages">
+            <div class="ai-message bot-msg">
+              <div class="msg-text">Привет! 👋 Я здесь, чтобы помочь с вопросами о здоровье. Спросите меня о симптомах или здоровом образе жизни!</div>
+            </div>
+          </div>
+          <div class="ai-input-box">
+            <input type="text" id="ai-input" placeholder="Спросите меня что-нибудь..." />
+            <button onclick="sendAIMessage()">Отправить</button>
+          </div>
+        </div>
+      ` : ''}
       
       <div class="container">
         <h1>🧑 Кабинет пациента</h1>
@@ -381,35 +472,31 @@ function renderPatientDashboard() {
         <div class="tabs">
           <button class="tab-btn active" data-tab="home">🏠 Главная</button>
           <button class="tab-btn" data-tab="appointments">📅 Записи</button>
-          <button class="tab-btn" data-tab="medical">📋 Медкарта</button>
           <button class="tab-btn" data-tab="articles">📚 Здоровье</button>
         </div>
         
         <div class="tab-content" id="home">
           <div class="welcome-box">
             <h2>Добро пожаловать, ${currentUser.name}! 👋</h2>
-            <p>Ваше здоровье — наш приоритет. Здесь вы можете записаться к врачу, просмотреть свою медицинскую карту и получить полезные советы.</p>
+            <p>Запишитесь к врачу, получите консультацию и улучшайте своё здоровье каждый день!</p>
           </div>
           
-          <div class="stats-patient">
-            <div class="stat-item">
-              <div class="stat-icon">📅</div>
-              <div class="stat-info">
-                <div class="stat-number">${appointments.length}</div>
-                <div class="stat-label">Записей к врачу</div>
-              </div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-icon">📋</div>
-              <div class="stat-info">
-                <div class="stat-number">${records.length}</div>
-                <div class="stat-label">Записей в медкарте</div>
-              </div>
-            </div>
-          </div>
-          
-          <div style="margin-top: 2rem;">
-            <a href="#" class="btn btn-primary" onclick="document.querySelector('[data-tab=\\'appointments\\']').click(); return false;">📅 Записаться к врачу</a>
+          <div class="quick-actions">
+            <a href="#" class="action-card" onclick="document.querySelector('[data-tab=\\'appointments\\']').click(); return false;">
+              <div class="action-icon">📅</div>
+              <h3>Запись к врачу</h3>
+              <p>Выберите врача и время</p>
+            </a>
+            <a href="#" class="action-card" onclick="document.querySelector('[data-tab=\\'articles\\']').click(); return false;">
+              <div class="action-icon">📚</div>
+              <h3>Статьи про здоровье</h3>
+              <p>Полезные советы и информация</p>
+            </a>
+            <a href="#" class="action-card" onclick="toggleAIChat(); return false;">
+              <div class="action-icon">🤖</div>
+              <h3>AI Помощник</h3>
+              <p>Ответы на вопросы про здоровье</p>
+            </a>
           </div>
         </div>
         
@@ -419,7 +506,7 @@ function renderPatientDashboard() {
             <div class="empty-state">
               <div class="empty-icon">📅</div>
               <p>У вас нет записей</p>
-              <a href="#" class="btn btn-primary" onclick="document.querySelector('[data-tab=\\'book\\']').click(); return false;">Записаться к врачу</a>
+              <a href="#" class="btn btn-primary" onclick="document.querySelector('.book-section').style.display='block'; return false;">Записаться к врачу</a>
             </div>
           ` : `
             <div class="card-grid">
@@ -434,27 +521,28 @@ function renderPatientDashboard() {
               `).join('')}
             </div>
           `}
-        </div>
-        
-        <div class="tab-content hidden" id="medical">
-          <h2>Электронная медицинская карта</h2>
-          ${records.length === 0 ? `
-            <div class="empty-state">
-              <div class="empty-icon">📋</div>
-              <p>Пока нет записей в медкарте</p>
-            </div>
-          ` : `
-            <div class="card-grid">
-              ${records.map(r => `
-                <div class="card">
-                  <p><strong>Дата приёма:</strong> ${r.date}</p>
-                  <p><strong>Врач:</strong> ${r.doctor}</p>
-                  <p><strong>Диагноз:</strong> ${r.diagnosis}</p>
-                  <p><strong>Назначение:</strong> ${r.prescription}</p>
-                </div>
-              `).join('')}
-            </div>
-          `}
+          
+          <div class="book-section" style="margin-top: 2rem;">
+            <h3>Запись к врачу</h3>
+            <form id="book-form" class="form-box">
+              <div class="form-group">
+                <label>Выберите врача</label>
+                <select id="doctor-select" required>
+                  <option value="">-- Выберите врача --</option>
+                  ${database.doctors.map(d => `<option value="${d.id}">${d.name} (${d.specialty})</option>`).join('')}
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Дата приёма</label>
+                <input type="date" id="appointment-date" required />
+              </div>
+              <div class="form-group">
+                <label>Время приёма</label>
+                <input type="time" id="appointment-time" required />
+              </div>
+              <button type="submit" class="btn btn-primary">Записаться →</button>
+            </form>
+          </div>
         </div>
         
         <div class="tab-content hidden" id="articles">
@@ -466,31 +554,12 @@ function renderPatientDashboard() {
                 <h3>${a.title}</h3>
                 <div class="article-category">${a.category}</div>
                 <p>${a.content}</p>
+                <div class="article-tips">
+                  ${a.tips.map(t => `<div class="tip">✓ ${t}</div>`).join('')}
+                </div>
               </div>
             `).join('')}
           </div>
-        </div>
-        
-        <div class="tab-content hidden" id="book">
-          <h2>Запись к врачу</h2>
-          <form id="book-form" class="form-box">
-            <div class="form-group">
-              <label>Выберите врача</label>
-              <select id="doctor-select" required>
-                <option value="">-- Выберите врача --</option>
-                ${database.doctors.map(d => `<option value="${d.id}">${d.name} (${d.specialty})</option>`).join('')}
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Дата приёма</label>
-              <input type="date" id="appointment-date" required />
-            </div>
-            <div class="form-group">
-              <label>Время приёма</label>
-              <input type="time" id="appointment-time" required />
-            </div>
-            <button type="submit" class="btn btn-primary">Записаться →</button>
-          </form>
         </div>
       </div>
     </div>
@@ -514,13 +583,13 @@ function renderDoctorDashboard() {
       <div class="container">
         <h1>👨‍⚕️ Кабинет врача</h1>
         
-        <div class="info-box" style="background: linear-gradient(135deg, rgba(123,111,255,0.1), rgba(103,58,183,0.1));">
+        <div class="info-box">
           <p><strong>Специальность:</strong> ${doctor ? doctor.specialty : 'Не указана'}</p>
           <p><strong>Опыт:</strong> ${doctor ? doctor.experience : 'Нет'}</p>
           <p><strong>Рейтинг:</strong> ⭐ ${doctor ? doctor.rating : 'Нет оценок'}</p>
         </div>
         
-        <h2>📅 Ваше расписание приёмов</h2>
+        <h2>📅 Ваши приёмы</h2>
         ${appointments.length === 0 ? `
           <div class="empty-state">
             <div class="empty-icon">📅</div>
@@ -589,43 +658,25 @@ function renderAdminDashboard() {
           </div>
           <div class="stat-card">
             <div class="stat-value">${stats.totalAppointments}</div>
-            <div class="stat-label">Всего приёмов</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">${stats.completedAppointments}</div>
-            <div class="stat-label">Завершённых</div>
+            <div class="stat-label">Приёмов</div>
           </div>
           <div class="stat-card">
             <div class="stat-value">⭐ ${stats.averageRating}</div>
-            <div class="stat-label">Средний рейтинг</div>
+            <div class="stat-label">Рейтинг</div>
           </div>
         </div>
         
         <div class="tabs">
-          <button class="tab-btn active" data-tab="statistics">📊 Статистика</button>
-          <button class="tab-btn" data-tab="create-doctor">👨‍⚕️ Создать врача</button>
+          <button class="tab-btn active" data-tab="create-doctor">👨‍⚕️ Создать врача</button>
           <button class="tab-btn" data-tab="users">👥 Пользователи</button>
-          <button class="tab-btn" data-tab="doctors">💼 Врачи</button>
-          <button class="tab-btn" data-tab="appointments">📅 Приёмы</button>
+          <button class="tab-btn" data-tab="statistics">📊 Статистика</button>
         </div>
         
-        <div class="tab-content" id="statistics">
-          <h2>Статистика системы</h2>
-          <div class="info-box">
-            <p><strong>Всего пользователей:</strong> ${stats.totalUsers}</p>
-            <p><strong>Всего врачей:</strong> ${stats.totalDoctors}</p>
-            <p><strong>Всего приёмов:</strong> ${stats.totalAppointments}</p>
-            <p><strong>Завершённых приёмов:</strong> ${stats.completedAppointments}</p>
-            <p><strong>Средний рейтинг врачей:</strong> ⭐ ${stats.averageRating}</p>
-            <p><strong>Процент завершённых:</strong> ${((stats.completedAppointments / stats.totalAppointments) * 100).toFixed(1)}%</p>
-          </div>
-        </div>
-        
-        <div class="tab-content hidden" id="create-doctor">
+        <div class="tab-content" id="create-doctor">
           <h2>👨‍⚕️ Создать аккаунт врача</h2>
           <form id="create-doctor-form" class="form-box">
             <div class="form-group">
-              <label>Полное имя врача</label>
+              <label>Имя врача</label>
               <input type="text" id="doctor-name" placeholder="Доктор Иванов" required />
             </div>
             <div class="form-group">
@@ -641,8 +692,7 @@ function renderAdminDashboard() {
         </div>
         
         <div class="tab-content hidden" id="users">
-          <h2>Управление пользователями</h2>
-          <p style="color: rgba(255,255,255,0.6); margin-bottom: 1.5rem;">Назначьте роли пациентам или удалите их из системы</p>
+          <h2>👥 Управление пользователями</h2>
           <div class="card-grid">
             ${database.users.map(u => `
               <div class="card">
@@ -652,13 +702,13 @@ function renderAdminDashboard() {
                 <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
                   ${u.role !== 'admin' ? `
                     <select style="flex: 1; padding: 0.5rem; border-radius: 6px; border: 1px solid rgba(0,212,255,0.3); background: rgba(0,212,255,0.1); color: #fff;" onchange="changeUserRole(${u.id}, this.value)">
-                      <option value="">Изменить роль</option>
+                      <option value="">Роль</option>
                       <option value="patient">Пациент</option>
                       <option value="doctor">Врач</option>
                     </select>
                     <button class="btn btn-danger btn-sm" onclick="removeUser(${u.id})">Удалить</button>
                   ` : `
-                    <span style="color: rgba(0,212,255,0.7); padding: 0.5rem;">Главный администратор</span>
+                    <span style="color: rgba(0,212,255,0.7); padding: 0.5rem;">Администратор</span>
                   `}
                 </div>
               </div>
@@ -666,48 +716,14 @@ function renderAdminDashboard() {
           </div>
         </div>
         
-        <div class="tab-content hidden" id="doctors">
-          <h2>💼 Врачи системы</h2>
-          <div class="card-grid">
-            ${database.doctors.map(d => `
-              <div class="card">
-                <h3>${d.name}</h3>
-                <p><strong>Специальность:</strong> ${d.specialty}</p>
-                <p><strong>Опыт:</strong> ${d.experience}</p>
-                <p><strong>Рейтинг:</strong> ⭐ ${d.rating}</p>
-              </div>
-            `).join('')}
+        <div class="tab-content hidden" id="statistics">
+          <h2>📊 Статистика системы</h2>
+          <div class="info-box">
+            <p><strong>Всего пользователей:</strong> ${stats.totalUsers}</p>
+            <p><strong>Всего врачей:</strong> ${stats.totalDoctors}</p>
+            <p><strong>Всего приёмов:</strong> ${stats.totalAppointments}</p>
+            <p><strong>Средний рейтинг:</strong> ⭐ ${stats.averageRating}</p>
           </div>
-        </div>
-        
-        <div class="tab-content hidden" id="appointments">
-          <h2>📅 Все приёмы</h2>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Пациент</th>
-                <th>Врач</th>
-                <th>Дата</th>
-                <th>Время</th>
-                <th>Статус</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${database.appointments.map(a => {
-                const patient = database.users.find(u => u.id === a.patientId);
-                const doctor = database.doctors.find(d => d.id === a.doctorId);
-                return `
-                  <tr>
-                    <td>${patient ? patient.name : 'Неизвестен'}</td>
-                    <td>${doctor ? doctor.name : 'Неизвестен'}</td>
-                    <td>${a.date}</td>
-                    <td>${a.time}</td>
-                    <td><span class="badge ${a.status === 'completed' ? 'badge-success' : 'badge-info'}">${a.status}</span></td>
-                  </tr>
-                `;
-              }).join('')}
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
@@ -778,6 +794,15 @@ function attachEventListeners() {
       const diagnosis = document.getElementById('diagnosis').value;
       const prescription = document.getElementById('prescription').value;
       completeDiagnosis(appointmentId, diagnosis, prescription);
+    });
+  }
+
+  const aiInput = document.getElementById('ai-input');
+  if (aiInput) {
+    aiInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sendAIMessage();
+      }
     });
   }
 }
