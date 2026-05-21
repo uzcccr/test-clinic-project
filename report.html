@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>МедПорт — Отчёт</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #050d1a 0%, #0a1628 100%);
+      color: #fff;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+    
+    .container { max-width: 900px; margin: 0 auto; }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .logo { font-size: 1.5rem; font-weight: 800; }
+    .logo span { color: #00d4ff; }
+    
+    h1 { font-size: 2.5rem; margin: 2rem 0 1rem; color: #fff; }
+    h2 { font-size: 1.8rem; margin: 2.5rem 0 1rem; color: #00d4ff; }
+    h3 { font-size: 1.2rem; margin: 1.5rem 0 0.8rem; color: rgba(255,255,255,0.9); }
+    
+    p { color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 1rem; }
+    
+    .section {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(0,212,255,0.15);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    ul { margin-left: 1.5rem; margin-bottom: 1rem; }
+    li { margin-bottom: 0.6rem; color: rgba(255,255,255,0.7); }
+    
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .feature-item {
+      background: rgba(0,212,255,0.08);
+      border-left: 3px solid #00d4ff;
+      padding: 1.5rem;
+      border-radius: 8px;
+    }
+    
+    .feature-item h4 { font-size: 1rem; color: #00d4ff; margin-bottom: 0.5rem; }
+    .feature-item p { font-size: 0.9rem; color: rgba(255,255,255,0.65); margin: 0; }
+    
+    .tech-stack {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .tech {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      color: #00d4ff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .back-link:hover { text-decoration: underline; }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+    
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.8);
+    }
+    
+    th {
+      background: rgba(0,212,255,0.1);
+      color: #00d4ff;
+      font-weight: 600;
+    }
+    
+    tr:hover { background: rgba(0,212,255,0.05); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">Мед<span>Порт</span></div>
+      <a href="index.html" class="back-link">← На главную</a>
+    </header>
+
+    <h1>📋 Отчёт о проекте</h1>
+    <p>МедПорт — современная онлайн-система управления поликлиникой с поддержкой трёх ролей пользователей</p>
+
+    <div class="section">
+      <h2>О проекте</h2>
+      <p>МедПорт — это полнофункциональная веб-система для управления работой медицинского учреждения. Система предоставляет удобный интерфейс для пациентов, врачей и администраторов.</p>
+      
+      <h3>Основные компоненты:</h3>
+      <ul>
+        <li><strong>Главная страница (index.html)</strong> — красивая посадочная страница с описанием возможностей</li>
+        <li><strong>Приложение (app.html)</strong> — система аутентификации и выбора ролей</li>
+        <li><strong>Отчёт (report.html)</strong> — полная документация проекта</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Основные возможности</h2>
+      <div class="feature-list">
+        <div class="feature-item">
+          <h4>📅 Онлайн-запись</h4>
+          <p>Пациенты могут записаться к врачу без звонков и очередей</p>
+        </div>
+        <div class="feature-item">
+          <h4>📋 Электронная медкарта</h4>
+          <p>Полная история диагнозов и лечения всегда доступна</p>
+        </div>
+        <div class="feature-item">
+          <h4>💬 Консультации</h4>
+          <p>Возможность общения с врачом и получения рекомендаций онлайн</p>
+        </div>
+        <div class="feature-item">
+          <h4>📊 Аналитика</h4>
+          <p>Администратор видит статистику и работу клиники в реальном времени</p>
+        </div>
+        <div class="feature-item">
+          <h4>🔐 Безопасность</h4>
+          <p>Разграничение ролей и защита персональных данных</p>
+        </div>
+        <div class="feature-item">
+          <h4>📱 Адаптивность</h4>
+          <p>Работает на любых устройствах: ПК, планшет, смартфон</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Архитектура системы</h2>
+      
+      <h3>Три роли пользователей:</h3>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Роль</th>
+            <th>Возможности</th>
+            <th>Доступ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>👧 Пациент</td>
+            <td>Запись к врачу, просмотр медкарты, история приёмов</td>
+            <td>Собственные данные</td>
+          </tr>
+          <tr>
+            <td>👨‍⚕️ Врач</td>
+            <td>Расписание, пациенты, диагнозы, назначения, отчёты</td>
+            <td>Пациенты на приём</td>
+          </tr>
+          <tr>
+            <td>👩‍💼 Администратор</td>
+            <td>Управление всеми пользователями, статистика, настройки</td>
+            <td>Вся система</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Стек технологий</h2>
+      <div class="tech-stack">
+        <div class="tech">
+          <strong>HTML5</strong>
+          <p>Структура</p>
+        </div>
+        <div class="tech">
+          <strong>CSS3</strong>
+          <p>Оформление</p>
+        </div>
+        <div class="tech">
+          <strong>JavaScript</strong>
+          <p>Интерактивность</p>
+        </div>
+        <div class="tech">
+          <strong>Responsive</strong>
+          <p>Адаптивный дизайн</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Структура файлов</h2>
+      <ul>
+        <li><code>index.html</code> — главная посадочная страница</li>
+        <li><code>app.html</code> — система аутентификации пользователей</li>
+        <li><code>report.html</code> — этот отчёт</li>
+        <li><code>css/main.css</code> — общие стили</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Инструкция по использованию</h2>
+      
+      <h3>1. Вход в систему</h3>
+      <p>Откройте index.html и нажмите на кнопку "Начать работу" или "Войти".</p>
+      
+      <h3>2. Выбор роли</h3>
+      <p>В приложении app.html выберите одну из трёх ролей: Пациент, Врач или Администратор.</p>
+      
+      <h3>3. Работа в системе</h3>
+      <p>Каждая роль имеет собственный интерфейс с функциями, подходящими для её задач.</p>
+    </div>
+
+    <a href="index.html" class="back-link">← Вернуться на главную</a>
+  </div>
+</body>
+</html>
