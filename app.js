@@ -1,31 +1,67 @@
 // ===== DATABASE =====
 const database = {
   users: [
-    { id: 1, name: 'Иван Пациент', email: 'patient@clinic.ru', role: 'patient', password: '1234' },
-    { id: 2, name: 'Доктор Смирнов', email: 'doctor@clinic.ru', role: 'doctor', password: '1234' },
-    { id: 3, name: 'Админ Иванова', email: 'admin@clinic.ru', role: 'admin', password: '1234' }
+    { id: 1, name: 'Главный администратор', email: 'abboskulovtoxir@gmail.com', role: 'admin', password: '10052005' }
   ],
   doctors: [
     { id: 1, name: 'Доктор Смирнов', specialty: 'Терапевт', rating: 4.8, experience: '12 лет' },
     { id: 2, name: 'Доктор Петрова', specialty: 'Кардиолог', rating: 4.9, experience: '15 лет' },
     { id: 3, name: 'Доктор Сидоров', specialty: 'Невролог', rating: 4.7, experience: '8 лет' }
   ],
-  appointments: [
-    { id: 1, patientId: 1, doctorId: 1, date: '2024-12-20', time: '10:00', status: 'scheduled' },
-    { id: 2, patientId: 1, doctorId: 2, date: '2024-12-22', time: '14:30', status: 'completed', diagnosis: 'Здоров' }
-  ],
-  medicalRecords: [
-    { id: 1, patientId: 1, date: '2024-12-22', doctor: 'Доктор Петрова', diagnosis: 'Здоров', prescription: 'Отдых 3 дня' }
+  appointments: [],
+  medicalRecords: [],
+  articles: [
+    {
+      id: 1,
+      title: '💪 Как укрепить иммунитет',
+      category: 'Профилактика',
+      icon: '🛡️',
+      content: 'Регулярная физическая активность, здоровое питание и достаточный сон — основа крепкого иммунитета. Не забывайте о витаминах и минералах!'
+    },
+    {
+      id: 2,
+      title: '❤️ Здоровье сердца',
+      category: 'Кардиология',
+      icon: '💓',
+      content: 'Ограничьте соль и жиры, занимайтесь спортом 30 минут в день, и ваше сердце будет вам благодарно. Регулярные проверки спасают жизни!'
+    },
+    {
+      id: 3,
+      title: '🧠 Здоровье мозга',
+      category: 'Неврология',
+      icon: '🧠',
+      content: 'Медитация, чтение и обучение новому — лучшие друзья вашего мозга. Не забывайте про качественный сон и избегайте стресса.'
+    },
+    {
+      id: 4,
+      title: '🥗 Правильное питание',
+      category: 'Диетология',
+      icon: '🥕',
+      content: 'Ешьте больше овощей и фруктов, пейте воду, избегайте фастфуда. Сбалансированное питание — инвестиция в ваше здоровье.'
+    },
+    {
+      id: 5,
+      title: '😴 Качество сна',
+      category: 'Здоровый образ жизни',
+      icon: '🌙',
+      content: 'Спите 7-9 часов, соблюдайте режим, избегайте гаджетов перед сном. Хороший сон — залог продуктивного дня и здоровья!'
+    },
+    {
+      id: 6,
+      title: '🏃 Физическая активность',
+      category: 'Спорт',
+      icon: '⚽',
+      content: 'Минимум 150 минут активности в неделю укрепляют сердце, мышцы и кости. Выбирайте вид спорта, который вам нравится!'
+    }
   ]
 };
 
 // ===== STATE =====
 let currentUser = null;
 let currentPage = 'auth';
-
-// ===== AUTHENTICATION =====
 let isRegistering = false;
 
+// ===== AUTHENTICATION =====
 function login(email, password) {
   const user = database.users.find(u => u.email === email && u.password === password);
   if (user) {
@@ -37,9 +73,8 @@ function login(email, password) {
   }
 }
 
-function register(name, email, password, passwordConfirm, role) {
-  // Валидация
-  if (!name || !email || !password || !role) {
+function register(name, email, password, passwordConfirm) {
+  if (!name || !email || !password) {
     alert('Заполни все поля');
     return;
   }
@@ -59,17 +94,16 @@ function register(name, email, password, passwordConfirm, role) {
     return;
   }
   
-  // Создание нового пользователя
   const newUser = {
-    id: Math.max(...database.users.map(u => u.id)) + 1,
+    id: Math.max(...database.users.map(u => u.id), 0) + 1,
     name,
     email,
-    role,
+    role: 'patient',
     password
   };
   
   database.users.push(newUser);
-  alert('✓ Аккаунт создан! Теперь войди с помощью email и пароля');
+  alert('✓ Аккаунт создан! Теперь войди со своими данными');
   isRegistering = false;
   renderApp();
 }
@@ -82,7 +116,71 @@ function toggleRegister() {
 function logout() {
   currentUser = null;
   currentPage = 'auth';
+  isRegistering = false;
   renderApp();
+}
+
+// ===== ADMIN FUNCTIONS =====
+function createDoctorAccount(name, email, password) {
+  if (!name || !email || !password) {
+    alert('Заполни все поля');
+    return;
+  }
+  
+  if (password.length < 4) {
+    alert('Пароль должен быть минимум 4 символа');
+    return;
+  }
+  
+  if (database.users.find(u => u.email === email)) {
+    alert('Этот email уже существует');
+    return;
+  }
+  
+  const newDoctor = {
+    id: Math.max(...database.users.map(u => u.id), 0) + 1,
+    name,
+    email,
+    role: 'doctor',
+    password
+  };
+  
+  database.users.push(newDoctor);
+  alert(`✓ Врач ${name} создан! Email: ${email}`);
+  renderApp();
+}
+
+function changeUserRole(userId, newRole) {
+  const user = database.users.find(u => u.id === userId);
+  if (user && user.role !== 'admin') {
+    user.role = newRole;
+    const roleNames = { patient: 'пациент', doctor: 'врач', admin: 'администратор' };
+    alert(`✓ Роль пользователя ${user.name} изменена на ${roleNames[newRole]}`);
+    renderApp();
+  } else {
+    alert('⚠️ Нельзя изменить роль администратора!');
+  }
+}
+
+function removeUser(userId) {
+  const user = database.users.find(u => u.id === userId);
+  if (user && user.role === 'admin') {
+    alert('⚠️ Нельзя удалить администратора!');
+    return;
+  }
+  database.users = database.users.filter(u => u.id !== userId);
+  alert('✓ Пользователь удалён');
+  renderApp();
+}
+
+function getStatistics() {
+  return {
+    totalUsers: database.users.length,
+    totalDoctors: database.doctors.length,
+    totalAppointments: database.appointments.length,
+    completedAppointments: database.appointments.filter(a => a.status === 'completed').length,
+    averageRating: (database.doctors.reduce((sum, d) => sum + d.rating, 0) / database.doctors.length).toFixed(1)
+  };
 }
 
 // ===== PATIENT FUNCTIONS =====
@@ -124,8 +222,12 @@ function getPatientMedicalRecords() {
 
 // ===== DOCTOR FUNCTIONS =====
 function getDoctorAppointments() {
+  const doctorUser = database.users.find(u => u.email === currentUser.email);
   return database.appointments
-    .filter(a => a.doctorId === database.doctors.find(d => d.name === currentUser.name)?.id)
+    .filter(a => {
+      const doctorFromAppointment = database.doctors.find(d => d.id === a.doctorId);
+      return doctorFromAppointment && doctorFromAppointment.name === currentUser.name;
+    })
     .map(a => {
       const patient = database.users.find(u => u.id === a.patientId);
       return { ...a, patientName: patient.name };
@@ -149,36 +251,6 @@ function completeDiagnosis(appointmentId, diagnosis, prescription) {
     alert('✓ Диагноз записан');
     renderApp();
   }
-}
-
-// ===== ADMIN FUNCTIONS =====
-function getStatistics() {
-  return {
-    totalUsers: database.users.length,
-    totalDoctors: database.doctors.length,
-    totalAppointments: database.appointments.length,
-    completedAppointments: database.appointments.filter(a => a.status === 'completed').length,
-    averageRating: (database.doctors.reduce((sum, d) => sum + d.rating, 0) / database.doctors.length).toFixed(1)
-  };
-}
-
-function addUser(name, email, role) {
-  const user = {
-    id: database.users.length + 1,
-    name,
-    email,
-    role,
-    password: '1234'
-  };
-  database.users.push(user);
-  alert('✓ Пользователь добавлен');
-  renderApp();
-}
-
-function removeUser(userId) {
-  database.users = database.users.filter(u => u.id !== userId);
-  alert('✓ Пользователь удалён');
-  renderApp();
 }
 
 // ===== RENDER FUNCTIONS =====
@@ -205,7 +277,11 @@ function renderAuthPage() {
         <div class="auth-box">
           <div class="auth-logo">🏥</div>
           <h1>МедПорт</h1>
-          <p class="auth-subtitle">Создание аккаунта</p>
+          <p class="auth-subtitle">Создание аккаунта пациента</p>
+          
+          <div class="info-box" style="margin-bottom: 1.5rem; background: linear-gradient(135deg, rgba(0,200,100,0.1), rgba(76,175,80,0.1));">
+            ℹ️ <strong>Добро пожаловать!</strong> Создайте аккаунт, чтобы записаться к врачу и получить доступ к своей медицинской карте
+          </div>
           
           <form id="register-form">
             <div class="form-group">
@@ -224,15 +300,6 @@ function renderAuthPage() {
               <label>Подтверди пароль</label>
               <input type="password" id="reg-password-confirm" placeholder="Повтори пароль" required />
             </div>
-            <div class="form-group">
-              <label>Выбери свою роль</label>
-              <select id="reg-role" required>
-                <option value="">-- Выбери роль --</option>
-                <option value="patient">🧑 Пациент</option>
-                <option value="doctor">👨‍⚕️ Врач</option>
-                <option value="admin">👩‍💼 Администратор</option>
-              </select>
-            </div>
             <button type="submit" class="btn btn-primary">Зарегистрироваться →</button>
           </form>
           
@@ -245,34 +312,50 @@ function renderAuthPage() {
   }
   
   return `
-    <div class="auth-container">
-      <div class="auth-box">
-        <div class="auth-logo">🏥</div>
-        <h1>МедПорт</h1>
-        <p class="auth-subtitle">Онлайн-система поликлиники</p>
-        
-        <div class="demo-roles">
-          <h3>📝 Тестовые аккаунты</h3>
-          <p><strong>Пациент:</strong> patient@clinic.ru / 1234</p>
-          <p><strong>Врач:</strong> doctor@clinic.ru / 1234</p>
-          <p><strong>Админ:</strong> admin@clinic.ru / 1234</p>
+    <div class="auth-page">
+      <div class="auth-container">
+        <div class="auth-box">
+          <div class="auth-logo">🏥</div>
+          <h1>МедПорт</h1>
+          <p class="auth-subtitle">Ваше здоровье — наша забота</p>
+          
+          <form id="login-form">
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="email" placeholder="example@clinic.ru" required />
+            </div>
+            <div class="form-group">
+              <label>Пароль</label>
+              <input type="password" id="password" placeholder="••••••••" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Войти →</button>
+          </form>
+          
+          <div class="auth-divider">или</div>
+          
+          <button type="button" class="btn btn-secondary" onclick="toggleRegister()">Создать аккаунт пациента</button>
+          
+          <div class="features-preview">
+            <h3>✨ Что вас ждёт:</h3>
+            <div class="feature-item">📅 Запись к врачу онлайн</div>
+            <div class="feature-item">📋 Электронная медкарта</div>
+            <div class="feature-item">💬 Консультации с врачами</div>
+            <div class="feature-item">📊 История приёмов</div>
+          </div>
         </div>
-        
-        <form id="login-form">
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" id="email" placeholder="example@clinic.ru" required />
-          </div>
-          <div class="form-group">
-            <label>Пароль</label>
-            <input type="password" id="password" placeholder="••••••••" required />
-          </div>
-          <button type="submit" class="btn btn-primary">Войти →</button>
-        </form>
-        
-        <div class="auth-divider">или</div>
-        
-        <button type="button" class="btn btn-secondary" onclick="toggleRegister()">Создать новый аккаунт</button>
+      </div>
+      
+      <div class="articles-preview">
+        <h2>📚 Советы для здоровья</h2>
+        <div class="articles-grid">
+          ${database.articles.slice(0, 3).map(a => `
+            <div class="article-card">
+              <div class="article-icon">${a.icon}</div>
+              <h3>${a.title}</h3>
+              <p>${a.content}</p>
+            </div>
+          `).join('')}
+        </div>
       </div>
     </div>
   `;
@@ -296,14 +379,49 @@ function renderPatientDashboard() {
         <h1>🧑 Кабинет пациента</h1>
         
         <div class="tabs">
-          <button class="tab-btn active" data-tab="appointments">📅 Записи</button>
+          <button class="tab-btn active" data-tab="home">🏠 Главная</button>
+          <button class="tab-btn" data-tab="appointments">📅 Записи</button>
           <button class="tab-btn" data-tab="medical">📋 Медкарта</button>
-          <button class="tab-btn" data-tab="book">✏️ Новая запись</button>
+          <button class="tab-btn" data-tab="articles">📚 Здоровье</button>
         </div>
         
-        <div class="tab-content" id="appointments">
+        <div class="tab-content" id="home">
+          <div class="welcome-box">
+            <h2>Добро пожаловать, ${currentUser.name}! 👋</h2>
+            <p>Ваше здоровье — наш приоритет. Здесь вы можете записаться к врачу, просмотреть свою медицинскую карту и получить полезные советы.</p>
+          </div>
+          
+          <div class="stats-patient">
+            <div class="stat-item">
+              <div class="stat-icon">📅</div>
+              <div class="stat-info">
+                <div class="stat-number">${appointments.length}</div>
+                <div class="stat-label">Записей к врачу</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon">📋</div>
+              <div class="stat-info">
+                <div class="stat-number">${records.length}</div>
+                <div class="stat-label">Записей в медкарте</div>
+              </div>
+            </div>
+          </div>
+          
+          <div style="margin-top: 2rem;">
+            <a href="#" class="btn btn-primary" onclick="document.querySelector('[data-tab=\\'appointments\\']').click(); return false;">📅 Записаться к врачу</a>
+          </div>
+        </div>
+        
+        <div class="tab-content hidden" id="appointments">
           <h2>Ваши записи к врачу</h2>
-          ${appointments.length === 0 ? '<p class="no-data">Записей нет</p>' : `
+          ${appointments.length === 0 ? `
+            <div class="empty-state">
+              <div class="empty-icon">📅</div>
+              <p>У вас нет записей</p>
+              <a href="#" class="btn btn-primary" onclick="document.querySelector('[data-tab=\\'book\\']').click(); return false;">Записаться к врачу</a>
+            </div>
+          ` : `
             <div class="card-grid">
               ${appointments.map(a => `
                 <div class="card">
@@ -320,7 +438,12 @@ function renderPatientDashboard() {
         
         <div class="tab-content hidden" id="medical">
           <h2>Электронная медицинская карта</h2>
-          ${records.length === 0 ? '<p class="no-data">Записей в медкарте нет</p>' : `
+          ${records.length === 0 ? `
+            <div class="empty-state">
+              <div class="empty-icon">📋</div>
+              <p>Пока нет записей в медкарте</p>
+            </div>
+          ` : `
             <div class="card-grid">
               ${records.map(r => `
                 <div class="card">
@@ -332,6 +455,20 @@ function renderPatientDashboard() {
               `).join('')}
             </div>
           `}
+        </div>
+        
+        <div class="tab-content hidden" id="articles">
+          <h2>📚 Советы для здоровья</h2>
+          <div class="articles-grid">
+            ${database.articles.map(a => `
+              <div class="article-card">
+                <div class="article-icon">${a.icon}</div>
+                <h3>${a.title}</h3>
+                <div class="article-category">${a.category}</div>
+                <p>${a.content}</p>
+              </div>
+            `).join('')}
+          </div>
         </div>
         
         <div class="tab-content hidden" id="book">
@@ -377,14 +514,19 @@ function renderDoctorDashboard() {
       <div class="container">
         <h1>👨‍⚕️ Кабинет врача</h1>
         
-        <div class="info-box">
-          <p><strong>Специальность:</strong> ${doctor.specialty}</p>
-          <p><strong>Опыт:</strong> ${doctor.experience}</p>
-          <p><strong>Рейтинг:</strong> ⭐ ${doctor.rating}</p>
+        <div class="info-box" style="background: linear-gradient(135deg, rgba(123,111,255,0.1), rgba(103,58,183,0.1));">
+          <p><strong>Специальность:</strong> ${doctor ? doctor.specialty : 'Не указана'}</p>
+          <p><strong>Опыт:</strong> ${doctor ? doctor.experience : 'Нет'}</p>
+          <p><strong>Рейтинг:</strong> ⭐ ${doctor ? doctor.rating : 'Нет оценок'}</p>
         </div>
         
-        <h2>📅 Ваш расписание приёмов</h2>
-        ${appointments.length === 0 ? '<p class="no-data">Нет записанных пациентов</p>' : `
+        <h2>📅 Ваше расписание приёмов</h2>
+        ${appointments.length === 0 ? `
+          <div class="empty-state">
+            <div class="empty-icon">📅</div>
+            <p>Нет записанных пациентов</p>
+          </div>
+        ` : `
           <div class="card-grid">
             ${appointments.map(a => `
               <div class="card">
@@ -461,8 +603,9 @@ function renderAdminDashboard() {
         
         <div class="tabs">
           <button class="tab-btn active" data-tab="statistics">📊 Статистика</button>
+          <button class="tab-btn" data-tab="create-doctor">👨‍⚕️ Создать врача</button>
           <button class="tab-btn" data-tab="users">👥 Пользователи</button>
-          <button class="tab-btn" data-tab="doctors">👨‍⚕️ Врачи</button>
+          <button class="tab-btn" data-tab="doctors">💼 Врачи</button>
           <button class="tab-btn" data-tab="appointments">📅 Приёмы</button>
         </div>
         
@@ -478,32 +621,53 @@ function renderAdminDashboard() {
           </div>
         </div>
         
+        <div class="tab-content hidden" id="create-doctor">
+          <h2>👨‍⚕️ Создать аккаунт врача</h2>
+          <form id="create-doctor-form" class="form-box">
+            <div class="form-group">
+              <label>Полное имя врача</label>
+              <input type="text" id="doctor-name" placeholder="Доктор Иванов" required />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="doctor-email" placeholder="doctor@clinic.ru" required />
+            </div>
+            <div class="form-group">
+              <label>Пароль</label>
+              <input type="password" id="doctor-password" placeholder="Минимум 4 символа" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Создать врача →</button>
+          </form>
+        </div>
+        
         <div class="tab-content hidden" id="users">
           <h2>Управление пользователями</h2>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Имя</th>
-                <th>Email</th>
-                <th>Роль</th>
-                <th>Действие</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${database.users.map(u => `
-                <tr>
-                  <td>${u.name}</td>
-                  <td>${u.email}</td>
-                  <td><span class="badge">${u.role}</span></td>
-                  <td><button class="btn btn-danger btn-sm" onclick="removeUser(${u.id})">Удалить</button></td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
+          <p style="color: rgba(255,255,255,0.6); margin-bottom: 1.5rem;">Назначьте роли пациентам или удалите их из системы</p>
+          <div class="card-grid">
+            ${database.users.map(u => `
+              <div class="card">
+                <h3>${u.name}</h3>
+                <p><strong>Email:</strong> ${u.email}</p>
+                <p><strong>Роль:</strong> <span class="badge">${u.role}</span></p>
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                  ${u.role !== 'admin' ? `
+                    <select style="flex: 1; padding: 0.5rem; border-radius: 6px; border: 1px solid rgba(0,212,255,0.3); background: rgba(0,212,255,0.1); color: #fff;" onchange="changeUserRole(${u.id}, this.value)">
+                      <option value="">Изменить роль</option>
+                      <option value="patient">Пациент</option>
+                      <option value="doctor">Врач</option>
+                    </select>
+                    <button class="btn btn-danger btn-sm" onclick="removeUser(${u.id})">Удалить</button>
+                  ` : `
+                    <span style="color: rgba(0,212,255,0.7); padding: 0.5rem;">Главный администратор</span>
+                  `}
+                </div>
+              </div>
+            `).join('')}
+          </div>
         </div>
         
         <div class="tab-content hidden" id="doctors">
-          <h2>Врачи системы</h2>
+          <h2>💼 Врачи системы</h2>
           <div class="card-grid">
             ${database.doctors.map(d => `
               <div class="card">
@@ -517,7 +681,7 @@ function renderAdminDashboard() {
         </div>
         
         <div class="tab-content hidden" id="appointments">
-          <h2>Все приёмы</h2>
+          <h2>📅 Все приёмы</h2>
           <table class="data-table">
             <thead>
               <tr>
@@ -534,8 +698,8 @@ function renderAdminDashboard() {
                 const doctor = database.doctors.find(d => d.id === a.doctorId);
                 return `
                   <tr>
-                    <td>${patient.name}</td>
-                    <td>${doctor.name}</td>
+                    <td>${patient ? patient.name : 'Неизвестен'}</td>
+                    <td>${doctor ? doctor.name : 'Неизвестен'}</td>
                     <td>${a.date}</td>
                     <td>${a.time}</td>
                     <td><span class="badge ${a.status === 'completed' ? 'badge-success' : 'badge-info'}">${a.status}</span></td>
@@ -552,7 +716,6 @@ function renderAdminDashboard() {
 
 // ===== EVENT LISTENERS =====
 function attachEventListeners() {
-  // Login form
   const loginForm = document.getElementById('login-form');
   if (loginForm) {
     loginForm.addEventListener('submit', (e) => {
@@ -563,7 +726,6 @@ function attachEventListeners() {
     });
   }
   
-  // Register form
   const registerForm = document.getElementById('register-form');
   if (registerForm) {
     registerForm.addEventListener('submit', (e) => {
@@ -572,12 +734,21 @@ function attachEventListeners() {
       const email = document.getElementById('reg-email').value;
       const password = document.getElementById('reg-password').value;
       const passwordConfirm = document.getElementById('reg-password-confirm').value;
-      const role = document.getElementById('reg-role').value;
-      register(name, email, password, passwordConfirm, role);
+      register(name, email, password, passwordConfirm);
+    });
+  }
+
+  const createDoctorForm = document.getElementById('create-doctor-form');
+  if (createDoctorForm) {
+    createDoctorForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('doctor-name').value;
+      const email = document.getElementById('doctor-email').value;
+      const password = document.getElementById('doctor-password').value;
+      createDoctorAccount(name, email, password);
     });
   }
   
-  // Tab switching
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const tabName = e.target.dataset.tab;
@@ -588,7 +759,6 @@ function attachEventListeners() {
     });
   });
   
-  // Patient book appointment
   const bookForm = document.getElementById('book-form');
   if (bookForm) {
     bookForm.addEventListener('submit', (e) => {
@@ -600,7 +770,6 @@ function attachEventListeners() {
     });
   }
   
-  // Doctor diagnosis
   const diagnosisForm = document.getElementById('diagnosis-submit');
   if (diagnosisForm) {
     diagnosisForm.addEventListener('submit', (e) => {
