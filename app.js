@@ -1,32 +1,144 @@
-// ===== SIMPLE AI RESPONSES =====
-const aiResponses = {
-  health: [
-    { keywords: ['давление', 'гипертония'], answer: '🩺 Высокое давление требует внимания. Рекомендуется: ограничить соль, регулярно заниматься спортом, медитировать. Проконсультируйтесь с врачом для назначения лечения!' },
-    { keywords: ['температура', 'жар', 'лихорадка'], answer: '🌡️ При температуре: пейте больше воды, отдыхайте, применяйте жаропонижающие препараты. Если температура выше 39°C более 3 дней - обратитесь к врачу!' },
-    { keywords: ['кашель'], answer: '🫁 При кашле помогает: тёплое молоко с мёдом, полоскание горла, увлажнитель воздуха. Если кашель не проходит 2 недели - запишитесь к терапевту!' },
-    { keywords: ['головная боль', 'мигрень'], answer: '🤕 Для облегчения головной боли: отдохните в тёмной комнате, пейте воду, применяйте обезболивающее. Проверьте, не ли это стресс или усталость!' },
-    { keywords: ['бессонница', 'не сплю'], answer: '😴 Советы для лучшего сна: ложитесь в одно время, избегайте гаджетов за час до сна, пейте успокаивающий чай, проветривайте комнату!' },
-    { keywords: ['стресс', 'тревога', 'паника'], answer: '🧘 От стресса помогает: дыхательные упражнения, медитация, йога, прогулки на свежем воздухе, здоровый сон. Если критично - обратитесь к психологу!' },
-    { keywords: ['диета', 'похудение', 'вес'], answer: '🥗 Здоровое питание: ешьте больше овощей и фруктов, пейте воду, ограничьте сахар и жиры. Консультируйтесь с диетологом для персональной программы!' },
-    { keywords: ['спорт', 'тренировка', 'фитнес'], answer: '💪 Регулярная физическая активность 30 минут в день укрепляет здоровье. Выбирайте вид спорта по интересам: ходьба, плавание, йога, бег!' },
-    { keywords: ['привет', 'привет', 'как дела', 'hello'], answer: '👋 Привет! Я здесь, чтобы помочь с вопросами о здоровье. Спросите меня о симптомах, профилактике или здоровом образе жизни!' },
-    { keywords: ['спасибо', 'thanks'], answer: '😊 Пожалуйста! Если у вас ещё есть вопросы - всегда готов помочь. Берегите своё здоровье!' }
-  ],
-  default: '🤔 Интересный вопрос! Рекомендую записаться на консультацию к врачу. Он даст вам профессиональный совет. Могу ещё чем-то помочь?'
-};
+// ===== MEDICAL AI DATABASE =====
+const medicalKnowledge = [
+  {
+    keywords: ['сердце', 'сердечный', 'кардио', 'инфаркт', 'аритмия', 'гипертония', 'давление'],
+    answers: [
+      '❤️ **Сердечно-сосудистые заболевания**: Основные причины - стресс, курение, гиподинамия. Профилактика: регулярные упражнения, здоровое питание (овощи, рыба), контроль веса. Симптомы опасности: боль в груди, одышка, головокружение - срочно к врачу!',
+      '🏥 **Высокое давление (гипертония)**: Норма 120/80. Факторы риска: избыток соли, стресс, ожирение. Лечение: DASH диета (овощи, фрукты), физкультура, отказ от курения. Измеряйте давление регулярно!',
+      '⚡ **Аритмия (нарушение ритма)**: Ощущение перебоев в сердце. Причины: кофеин, стресс, гормональные сбои. Помощь: избегайте стимулянтов, медитация, обратитесь к кардиологу для ЭКГ.'
+    ]
+  },
+  {
+    keywords: ['легкие', 'дыхание', 'кашель', 'пневмония', 'бронхит', 'астма', 'одышка', 'бронх'],
+    answers: [
+      '🫁 **Заболевания дыхательной системы**: Основные симптомы - кашель, одышка, боль в груди. Причины: инфекции, аллергия, загрязнение воздуха. Профилактика: вентиляция помещения, отказ от курения, вакцинация.',
+      '🤒 **Пневмония (воспаление легких)**: Симптомы - кашель с мокротой, температура, слабость. ОПАСНО! Нужна врачебная помощь и возможно антибиотики. Не занимайтесь самолечением!',
+      '💨 **Бронхит**: Кашель (сначала сухой, потом с мокротой), температура до 38°C. Лечение: обильное питье, увлажнитель воздуха, отхаркивающие средства. Если не проходит неделю - к врачу!'
+    ]
+  },
+  {
+    keywords: ['желудок', 'гастрит', 'язва', 'изжога', 'тошнота', 'рвота', 'диарея', 'запор', 'кишечник'],
+    answers: [
+      '🍽️ **Гастрит (воспаление желудка)**: Симптомы - боль в животе, изжога, тошнота. Причины: стресс, острая пища, бактерия Helicobacter pylori. Лечение: диета (исключить острое, кислое), лекарства. Обследуйте у гастроэнтеролога!',
+      '⚠️ **Язва желудка**: Сильная боль в верхней части живота, часто ночью. СЕРЬЕЗНО! Может кровоточить. Нужны лекарства и строгая диета. Избегайте стресса, острого, алкоголя!',
+      '🔥 **Изжога**: Жжение за грудиной после еды. Причины: жирная пища, кофеин, наклоны вперед. Помощь: антациды, приподнимите голову во сне, ешьте маленькими порциями.'
+    ]
+  },
+  {
+    keywords: ['печень', 'гепатит', 'цирроз', 'желчь', 'поджелудочная', 'панкреатит'],
+    answers: [
+      '🏥 **Гепатит (воспаление печени)**: Типы А, В, С. Симптомы - желтуха, темная моча, слабость. Передача - через воду (А), кровь (В, С). Профилактика: вакцинация, гигиена, безопасность.',
+      '⚠️ **Цирроз печени**: Хроническое поражение, необратимо. Главная причина - алкоголь. Симптомы - асцит (жидкость в животе), кровотечения. Профилактика: отказ от алкоголя, здоровый образ жизни!',
+      '🔪 **Панкреатит (воспаление поджелудочной)**: Сильная боль в животе, рвота, температура. СРОЧНО К ВРАЧУ! Причины - алкоголь, жирная пища, камни в желчном пузыре. Соблюдайте диету!'
+    ]
+  },
+  {
+    keywords: ['почки', 'мочевой', 'нефрит', 'нефроз', 'камни', 'мочекаменная', 'цистит', 'уретрит'],
+    answers: [
+      '💧 **Нефрит (воспаление почек)**: Боль в пояснице, отёки, повышенное давление, кровь в моче. СЕРЬЕЗНО! Нужна помощь нефролога. Лечение: антибиотики, диета с ограничением соли.',
+      '🪨 **Мочекаменная болезнь**: Острая боль при движении камней, кровь в моче. Профилактика: много воды (2-3 литра в день), ограничьте кальций и оксалаты. УЗИ поможет обнаружить камни.',
+      '🔥 **Цистит (воспаление мочевого пузыря)**: Боль при мочеиспускании, частые позывы, может быть температура. Лечение: антибиотики, много воды, тепло на живот. Обратитесь к урологу!'
+    ]
+  },
+  {
+    keywords: ['мозг', 'нервная система', 'инсульт', 'инфаркт мозга', 'мигрень', 'головная боль', 'невралгия', 'судороги'],
+    answers: [
+      '🧠 **Инсульт (острое нарушение кровообращения мозга)**: Симптомы - внезапная слабость, нарушение речи, перекос лица. ВЫЗОВИТЕ СКОРУЮ! Это угроза жизни. Первая помощь - положить человека, не давайте еду/воду.',
+      '🤕 **Мигрень**: Сильная головная боль, часто с тошнотой и светобоязнью. Триггеры - стресс, гормоны, еда. Помощь: тёмное спокойное место, компресс, триптаны. Профилактика: здоровый сон, регулярность!',
+      '⚡ **Невралгия тройничного нерва**: Острая жгучая боль в лице. Причины - давление на нерв, инфекция. Лечение - противосудорожные препараты, может помочь операция. Консультируйтесь с неврологом!'
+    ]
+  },
+  {
+    keywords: ['кость', 'остеопороз', 'артрит', 'артроз', 'остеохондроз', 'перелом', 'вывих', 'суставы', 'позвоночник', 'спина', 'боль в спине'],
+    answers: [
+      '🦴 **Остеопороз (хрупкость костей)**: Кости становятся пористыми, легко ломаются. Риск повышен после 50 лет, особенно у женщин. Профилактика: кальций (молочные продукты), витамин D, физкультура, отказ от курения.',
+      '🔴 **Артрит (воспаление суставов)**: Боль, отёк, скованность движений. Типы - ревматоидный, остеоартрит. Лечение: противовоспалительные препараты, физиотерапия, диета. Вода в суставах - обратитесь к ревматологу!',
+      '⚠️ **Остеохондроз (поражение позвоночника)**: Дегенерация хрящей между позвонками. Симптомы - боль в спине, шее, онемение рук. Профилактика: правильная осанка, зарядка, поднимайте правильно. Помогут мануальная терапия и физкультура!'
+    ]
+  },
+  {
+    keywords: ['кожа', 'дерматит', 'экзема', 'псориаз', 'прыщи', 'акне', 'сыпь', 'грибок', 'лишай'],
+    answers: [
+      '🔴 **Дерматит (воспаление кожи)**: Красные зудящие пятна. Причины - аллергия, раздражители, инфекция. Лечение: увлажняющие кремы, исключить раздражители, иногда гормональные мази. Обратитесь к дерматологу!',
+      '🌡️ **Экзема**: Хроническое воспаление кожи, зуд, волдыри. Триггеры - стресс, моющие средства, пищевые аллергены. Помощь: увлажнение, ванны с овсянкой, избегайте триггеров.',
+      '🧴 **Акне (прыщи)**: Вызвано бактериями и избытком кожного сала. Лечение: очищение, салициловая кислота, бензоилпероксид, в тяжелых случаях антибиотики. Не давите! Обратитесь к дерматологу!'
+    ]
+  },
+  {
+    keywords: ['глаз', 'зрение', 'катаракта', 'глаукома', 'миопия', 'дальнозоркость', 'астигматизм', 'конъюнктивит'],
+    answers: [
+      '👁️ **Глаукома**: Повышенное давление в глазу, повреждает зрительный нерв. ОПАСНА - может привести к слепоте! Симптомы - боль в глазах, ограничение поля зрения. Нужны регулярные осмотры офтальмолога!',
+      '🔍 **Катаракта**: Помутнение хрусталика, особенно у пожилых. Симптомы - размытое зрение, свечение. Лечение - оперативное. Профилактика: UV защита, отказ от курения, здоровое питание.',
+      '📖 **Миопия (близорукость)**: Видно хорошо близко, далеко - размыто. Причины - генетика, переутомление глаз. Помощь: очки, линзы, возможно операция. Берегите глаза - делайте перерывы при чтении!'
+    ]
+  },
+  {
+    keywords: ['ухо', 'слух', 'отит', 'тугоухость', 'громкий звук', 'шум', 'звон'],
+    answers: [
+      '👂 **Отит (воспаление среднего уха)**: Боль в ухе, могут быть выделения, снижение слуха. Причины - инфекция, вода в ухе. Лечение: антибиотики, обезболивающие. ОПАСНО - может привести к менингиту! К врачу-отоларингологу!',
+      '🔊 **Потеря слуха**: Может быть врождённой или приобретённой (шум, возраст, инфекции). Профилактика: используйте наушники на безопасной громкости, защитите уши от громких звуков. Слухопротезирование помогает!',
+      '🔔 **Тиннитус (звон в ушах)**: Постоянный звон, шум. Причины - повреждение волосковых клеток, стресс, некоторые лекарства. Лечение: звуковая терапия, снятие стресса. Обратитесь к отоларингологу!'
+    ]
+  },
+  {
+    keywords: ['зуб', 'зубы', 'кариес', 'пародонтит', 'пульпит', 'гингивит', 'зубной', 'десна'],
+    answers: [
+      '🦷 **Кариес (разрушение зуба)**: Вызывают бактерии и сахар. Профилактика - чистите зубы 2 раза в день, зубная нить, избегайте сахара. Лечение: пломба, очистка. Не запускайте - может привести к потере зуба!',
+      '🩸 **Пародонтит (воспаление дёсен)**: Кровоточивость, гноение, рыхлость дёсен. ОПАСНО - может привести к потере зубов! Лечение: профессиональная чистка, гигиена, иногда антибиотики. К стоматологу!',
+      '🪥 **Гингивит (воспаление дёсен)**: Красные, опухшие, кровоточащие дёсны. Причина - плохая гигиена. Лечение: правильная чистка, полоскание хлоргексидином. Вовремя лечите - может перерасти в пародонтит!'
+    ]
+  },
+  {
+    keywords: ['гормон', 'щитовидная железа', 'диабет', 'гипотиреоз', 'гипертиреоз', 'инсулин', 'сахар'],
+    answers: [
+      '🩸 **Сахарный диабет**: Высокий уровень глюкозы в крови. Типы 1 и 2. Симптомы - жажда, частое мочеиспускание, усталость. Лечение: диета, инсулин или таблетки, физкультура. Проверяйте сахар регулярно!',
+      '🦋 **Гипертиреоз (избыток гормонов щитовидной железы)**: Ускоренный метаболизм, потеря веса, дрожь, беспокойство. Лечение: противотиреоидные препараты, иногда облучение или операция. К эндокринологу!',
+      '😔 **Гипотиреоз (недостаток гормонов щитовидной железы)**: Усталость, набор веса, депрессия, холодонебось. Лечение: гормон щитовидной железы (L-тироксин). Регулярно проверяйте уровень гормонов!'
+    ]
+  },
+  {
+    keywords: ['иммунитет', 'СПИД', 'ВИЧ', 'вирус', 'антитело', 'вакцина', 'прививка', 'инфекция'],
+    answers: [
+      '🛡️ **Иммунная система**: Защищает от инфекций. Укрепляйте: витамин C (цитрусовые), витамин D (солнце), цинк, сон 7-9 часов, физкультура, здоровое питание. Избегайте стресса!',
+      '⚠️ **ВИЧ/СПИД**: Вирус поражает иммунную систему. Передача - через кровь, половой контакт, от матери к ребёнку. Профилактика - защита, регулярное тестирование. При диагнозе - антиретровирусная терапия спасает жизнь!',
+      '💉 **Вакцины**: Обучают иммунную систему. Профилактика множества болезней: коронавирус, грипп, корь, полиомиелит. Побочные эффекты обычно лёгкие. Вакцинируйтесь - это спасает жизни!'
+    ]
+  },
+  {
+    keywords: ['беременность', 'роды', 'плод', 'матка', 'токсикоз', 'гинеколог', 'менструация', 'гормональный'],
+    answers: [
+      '👶 **Беременность**: Период 40 недель развития плода. Важно: регулярные осмотры гинеколога, фолиевая кислота, витамины, правильное питание, избегайте курения и алкоголя. Токсикоз в 1м триместре - нормально.',
+      '🤰 **Гестационный диабет**: Повышение сахара при беременности. Грозит осложнениями для матери и ребёнка. Контролируйте сахар, диета. Обычно проходит после родов.',
+      '💊 **Менструальный цикл**: Норма 21-35 дней. Если нарушен - могут быть гормональные проблемы, стресс, недостаток веса. К гинеколог-эндокринологу! Если обильные кровотечения - может быть анемия!'
+    ]
+  },
+  {
+    keywords: ['мышцы', 'спорт', 'травма', 'растяжение', 'ушиб', 'вывих', 'растяжение связок'],
+    answers: [
+      '💪 **Растяжение мышц**: Боль, отёк, синяки. Лечение: RICE (отдых, лёд, компрессия, возвышение). Не тренируйтесь пока не заживёт. Профилактика - разминка перед спортом!',
+      '⚠️ **Вывих сустава**: Сустав смещается из суставной сумки. БОЛЕЗНЕННО! Помощь - иммобилизация, лёд, к врачу. Может потребоваться репозиция (вправление). Реабилитация - важна!',
+      '🏃 **Растяжение связок**: Боль, отёк, невозможно нагружать. Грейд 1-3 в зависимости от тяжести. Лечение: RICE, физиотерапия. Может восстанавливаться 2-6 месяцев!'
+    ]
+  }
+];
 
 function getAIResponse(question) {
-  const q = question.toLowerCase();
+  const q = question.toLowerCase().trim();
   
-  for (let category of aiResponses.health) {
+  if (!q) return '❓ Пожалуйста, задайте вопрос про здоровье. Я помогу чем смогу!';
+  
+  // Ищем подходящую категорию
+  for (let category of medicalKnowledge) {
     for (let keyword of category.keywords) {
       if (q.includes(keyword)) {
-        return category.answer;
+        const randomAnswer = category.answers[Math.floor(Math.random() * category.answers.length)];
+        return randomAnswer;
       }
     }
   }
   
-  return aiResponses.default;
+  // Если не медицинский вопрос
+  return '❌ Извините, я отвечаю только на медицинские вопросы про здоровье человека, болезни, органы и лечение. Пожалуйста, спросите что-то медицинское! Например: "Как лечить кашель?", "Что такое гастрит?" или "Симптомы диабета?"';
 }
 
 // ===== DATABASE =====
@@ -42,66 +154,26 @@ const database = {
   appointments: [],
   medicalRecords: [],
   articles: [
-    {
-      id: 1,
-      title: 'Как укрепить иммунитет',
-      category: 'Профилактика',
-      icon: '💪',
-      image: '🛡️',
-      content: 'Регулярная физическая активность, здоровое питание и достаточный сон — основа крепкого иммунитета. Не забывайте о витаминах и минералах!',
-      tips: ['Витамин C из цитрусовых', ' 7-9 часов сна', 'Упражнения 30 минут в день', 'Избегайте стресса']
-    },
-    {
-      id: 2,
-      title: 'Здоровье сердца',
-      category: 'Кардиология',
-      icon: '❤️',
-      image: '💓',
-      content: 'Ограничьте соль и жиры, занимайтесь спортом 30 минут в день, и ваше сердце будет вам благодарно. Регулярные проверки спасают жизни!',
-      tips: ['Контролируйте давление', 'Избегайте жирной пищи', 'Гуляйте каждый день', 'Медитируйте']
-    },
-    {
-      id: 3,
-      title: 'Здоровье мозга',
-      category: 'Неврология',
-      icon: '🧠',
-      image: '🧠',
-      content: 'Медитация, чтение и обучение новому — лучшие друзья вашего мозга. Не забывайте про качественный сон и избегайте стресса.',
-      tips: ['Решайте головоломки', 'Учитесь новому', 'Медитируйте 10 минут', 'Спите хорошо']
-    },
-    {
-      id: 4,
-      title: 'Правильное питание',
-      category: 'Диетология',
-      icon: '🥗',
-      image: '🥕',
-      content: 'Ешьте больше овощей и фруктов, пейте воду, избегайте фастфуда. Сбалансированное питание — инвестиция в ваше здоровье.',
-      tips: ['50% овощей', '2 литра воды', 'Меньше сахара', 'Больше клетчатки']
-    },
-    {
-      id: 5,
-      title: 'Качество сна',
-      category: 'Здоровый образ жизни',
-      icon: '😴',
-      image: '🌙',
-      content: 'Спите 7-9 часов, соблюдайте режим, избегайте гаджетов перед сном. Хороший сон — залог продуктивного дня и здоровья!',
-      tips: ['Режим сна', 'Без гаджетов за час', 'Прохладная комната', 'Полная темнота']
-    },
-    {
-      id: 6,
-      title: 'Физическая активность',
-      category: 'Спорт',
-      icon: '⚽',
-      image: '🏃',
-      content: 'Минимум 150 минут активности в неделю укрепляют сердце, мышцы и кости. Выбирайте вид спорта, который вам нравится!',
-      tips: ['30 минут в день', 'Выбирайте интересный спорт', 'Разминка важна', 'Постепенное увеличение']
-    }
+    { id: 1, title: 'Здоровье сердца', category: 'Кардиология', icon: '❤️', content: 'Контролируйте давление, ограничьте соль, занимайтесь спортом 30 минут в день. Рекомендуемое давление: 120/80 мм рт. ст.', tips: ['Регулярные упражнения', 'DASH диета', 'Контроль стресса', 'Отказ от курения'] },
+    { id: 2, title: 'Дыхательная система', category: 'Пульмонология', icon: '🫁', content: 'Здоровые лёгкие - основа жизни. Избегайте курения, загрязнённого воздуха. При затруднённом дыхании обратитесь к врачу.', tips: ['Избегайте курения', 'Вентилируйте помещение', 'Вакцинируйтесь', 'Упражнения дыхания'] },
+    { id: 3, title: 'ЖКТ и пищеварение', category: 'Гастроэнтерология', icon: '🍽️', content: 'Правильное питание - ключ к здоровому пищеварению. Ешьте медленно, жуйте тщательно. Избегайте жирного и острого.', tips: ['Маленькие порции', 'Много воды', 'Клетчатка', 'Избегайте спешки'] },
+    { id: 4, title: 'Почки и мочеполовая система', category: 'Нефрология', icon: '💧', content: 'Пейте 2-3 литра воды в день. Это помогает предотвратить камни в почках. Следите за цветом мочи - она должна быть светлой.', tips: ['2-3 литра воды', 'Ограничьте соль', 'Активный образ жизни', 'Регулярные проверки'] },
+    { id: 5, title: 'Нервная система и психическое здоровье', category: 'Неврология', icon: '🧠', content: 'Стресс и тревога влияют на здоровье. Практикуйте медитацию, йогу, глубокое дыхание. Спите 7-9 часов в сутки.', tips: ['Медитация', 'Йога', 'Прогулки на природе', 'Здоровый сон'] },
+    { id: 6, title: 'Опорно-двигательный аппарат', category: 'Ортопедия', icon: '🦴', content: 'Правильная осанка предотвращает боли в спине. Укрепляйте мышцы спины и пресса. При болях не поднимайте тяжести.', tips: ['Правильная осанка', 'Упражнения для спины', 'Не переносите тяжести', 'Физиотерапия'] },
+    { id: 7, title: 'Кожа и дерматология', category: 'Дерматология', icon: '🔴', content: 'Используйте солнцезащиту SPF 30+ ежедневно. Увлажняйте кожу. При сыпи или зуде обратитесь к дерматологу.', tips: ['Солнцезащита', 'Увлажнение', 'Очищение кожи', 'Избегайте химии'] },
+    { id: 8, title: 'Зрение и офтальмология', category: 'Офтальмология', icon: '👁️', content: 'Защищайте глаза от UV лучей. Делайте перерывы при работе за экраном. После 40 лет - ежегодные осмотры офтальмолога.', tips: ['UV защита', 'Перерывы при ПК', 'Гимнастика для глаз', 'Регулярные осмотры'] },
+    { id: 9, title: 'Уши и слух', category: 'Отоларингология', icon: '👂', content: 'Не используйте наушники на громкости выше 60%. Защищайте уши от громких звуков. При звоне в ушах обратитесь к врачу.', tips: ['Безопасная громкость', 'Защита от шума', 'Гигиена ушей', 'Регулярные проверки'] },
+    { id: 10, title: 'Зубы и полость рта', category: 'Стоматология', icon: '🦷', content: 'Чистите зубы 2 раза в день по 2 минуты. Используйте зубную нить. Посещайте стоматолога 2 раза в год.', tips: ['Чистка 2 раза в день', 'Зубная нить', 'Полоскание', 'Профосмотры'] },
+    { id: 11, title: 'Гормональная система', category: 'Эндокринология', icon: '⚡', content: 'Сахарный диабет 2 типа можно предотвратить здоровым образом жизни. Проверяйте уровень сахара регулярно.', tips: ['Здоровое питание', 'Физкультура', 'Контроль веса', 'Регулярные тесты'] },
+    { id: 12, title: 'Иммунитет и профилактика', category: 'Иммунология', icon: '🛡️', content: 'Вакцины спасают жизни. Витамин C, цинк, витамин D укрепляют иммунитет. Спите достаточно и управляйте стрессом.', tips: ['Вакцинируйтесь', 'Витамины', 'Здоровый сон', 'Физкультура'] },
+    { id: 13, title: 'Гинекология и женское здоровье', category: 'Гинекология', icon: '👶', content: 'Регулярные осмотры гинеколога - основа женского здоровья. Во время беременности - витамины и здоровое питание.', tips: ['Регулярные осмотры', 'Гинекологическая профилактика', 'Здоровое питание', 'Фитнес'] },
+    { id: 14, title: 'Спортивная медицина', category: 'Спортивная медицина', icon: '🏃', content: 'Разминка перед тренировкой предотвращает травмы. Восстановление не менее важно, чем сама тренировка.', tips: ['Разминка 10 минут', 'Постепенное увеличение', 'Восстановление', 'Правильная техника'] },
+    { id: 15, title: 'Питание и диетология', category: 'Диетология', icon: '🥗', content: 'Сбалансированное питание включает белки, жиры, углеводы. Ешьте радугу - разноцветные овощи и фрукты.', tips: ['Белки, жиры, углеводы', 'Много воды', 'Овощи и фрукты', 'Меньше обработанной еды'] }
   ]
 };
 
 // ===== STATE =====
 let currentUser = null;
-let currentPage = 'auth';
 let isRegistering = false;
 let showAIChat = false;
 
@@ -110,7 +182,6 @@ function login(email, password) {
   const user = database.users.find(u => u.email === email && u.password === password);
   if (user) {
     currentUser = { ...user };
-    currentPage = user.role;
     renderApp();
   } else {
     alert('Неверный email или пароль');
@@ -159,7 +230,6 @@ function toggleRegister() {
 
 function logout() {
   currentUser = null;
-  currentPage = 'auth';
   isRegistering = false;
   showAIChat = false;
   renderApp();
@@ -227,11 +297,8 @@ function changeUserRole(userId, newRole) {
   const user = database.users.find(u => u.id === userId);
   if (user && user.role !== 'admin') {
     user.role = newRole;
-    const roleNames = { patient: 'пациент', doctor: 'врач', admin: 'администратор' };
-    alert(`✓ Роль изменена на ${roleNames[newRole]}`);
+    alert(`✓ Роль изменена`);
     renderApp();
-  } else {
-    alert('⚠️ Нельзя изменить роль администратора!');
   }
 }
 
@@ -272,12 +339,9 @@ function bookAppointment(doctorId, date, time) {
 }
 
 function cancelAppointment(appointmentId) {
-  const appointment = database.appointments.find(a => a.id === appointmentId);
-  if (appointment) {
-    database.appointments = database.appointments.filter(a => a.id !== appointmentId);
-    alert('✓ Запись отменена');
-    renderApp();
-  }
+  database.appointments = database.appointments.filter(a => a.id !== appointmentId);
+  alert('✓ Запись отменена');
+  renderApp();
 }
 
 function getPatientAppointments() {
@@ -287,42 +351,6 @@ function getPatientAppointments() {
       const doctor = database.doctors.find(d => d.id === a.doctorId);
       return { ...a, doctorName: doctor.name, doctorSpecialty: doctor.specialty };
     });
-}
-
-function getPatientMedicalRecords() {
-  return database.medicalRecords.filter(r => r.patientId === currentUser.id);
-}
-
-// ===== DOCTOR FUNCTIONS =====
-function getDoctorAppointments() {
-  return database.appointments
-    .filter(a => {
-      const doctorFromAppointment = database.doctors.find(d => d.id === a.doctorId);
-      return doctorFromAppointment && doctorFromAppointment.name === currentUser.name;
-    })
-    .map(a => {
-      const patient = database.users.find(u => u.id === a.patientId);
-      return { ...a, patientName: patient.name };
-    });
-}
-
-function completeDiagnosis(appointmentId, diagnosis, prescription) {
-  const appointment = database.appointments.find(a => a.id === appointmentId);
-  if (appointment) {
-    appointment.status = 'completed';
-    const doctor = database.doctors.find(d => d.id === appointment.doctorId);
-    const record = {
-      id: database.medicalRecords.length + 1,
-      patientId: appointment.patientId,
-      date: appointment.date,
-      doctor: doctor.name,
-      diagnosis,
-      prescription
-    };
-    database.medicalRecords.push(record);
-    alert('✓ Диагноз записан');
-    renderApp();
-  }
 }
 
 // ===== RENDER FUNCTIONS =====
@@ -347,6 +375,7 @@ function renderAuthPage() {
     return `
       <div class="auth-page">
         <div class="animated-bg"></div>
+        <div class="medical-background"></div>
         <div class="auth-container">
           <div class="auth-box">
             <div class="auth-logo">🏥</div>
@@ -385,6 +414,13 @@ function renderAuthPage() {
   return `
     <div class="auth-page">
       <div class="animated-bg"></div>
+      <div class="medical-background">
+        <div class="floating-icon">🩺</div>
+        <div class="floating-icon">💊</div>
+        <div class="floating-icon">🩹</div>
+        <div class="floating-icon">🧬</div>
+        <div class="floating-icon">⚕️</div>
+      </div>
       <div class="auth-container">
         <div class="auth-box">
           <div class="auth-logo">🏥</div>
@@ -413,18 +449,25 @@ function renderAuthPage() {
             <div class="feature-item">📋 Электронная медкарта</div>
             <div class="feature-item">💬 Консультации с врачами</div>
             <div class="feature-item">🤖 AI ассистент 24/7</div>
+            <div class="feature-item">📚 Медицинские статьи</div>
+          </div>
+          
+          <div class="admin-hint">
+            <strong>👨‍💼 Администратор:</strong><br>
+            abboskulovtoxir@gmail.com / 10052005
           </div>
         </div>
       </div>
       
       <div class="articles-preview">
-        <h2>📚 Статьи про здоровье</h2>
+        <h2>📚 Медицинские статьи</h2>
         <div class="articles-grid">
-          ${database.articles.slice(0, 3).map(a => `
+          ${database.articles.slice(0, 4).map(a => `
             <div class="article-card">
               <div class="article-icon">${a.icon}</div>
               <h3>${a.title}</h3>
-              <p>${a.content.substring(0, 80)}...</p>
+              <div class="article-category">${a.category}</div>
+              <p>${a.content.substring(0, 90)}...</p>
             </div>
           `).join('')}
         </div>
@@ -435,7 +478,6 @@ function renderAuthPage() {
 
 function renderPatientDashboard() {
   const appointments = getPatientAppointments();
-  const records = getPatientMedicalRecords();
   
   return `
     <div class="dashboard">
@@ -451,16 +493,16 @@ function renderPatientDashboard() {
       ${showAIChat ? `
         <div class="ai-chat">
           <div class="ai-header">
-            <h3>🤖 AI Ассистент МедПорт</h3>
+            <h3>🤖 Медицинский AI Ассистент</h3>
             <button onclick="toggleAIChat()">✕</button>
           </div>
           <div class="ai-messages" id="ai-messages">
             <div class="ai-message bot-msg">
-              <div class="msg-text">Привет! 👋 Я здесь, чтобы помочь с вопросами о здоровье. Спросите меня о симптомах или здоровом образе жизни!</div>
+              <div class="msg-text">Привет! 👋 Я медицинский AI ассистент. Отвечаю на вопросы про здоровье, болезни, органы, симптомы и лечение. Спросите меня что-нибудь! Например: "Как лечить простуду?" или "Симптомы гастрита?"</div>
             </div>
           </div>
           <div class="ai-input-box">
-            <input type="text" id="ai-input" placeholder="Спросите меня что-нибудь..." />
+            <input type="text" id="ai-input" placeholder="Спросите про здоровье..." />
             <button onclick="sendAIMessage()">Отправить</button>
           </div>
         </div>
@@ -469,44 +511,59 @@ function renderPatientDashboard() {
       <div class="container">
         <h1>🧑 Кабинет пациента</h1>
         
+        <div class="welcome-box">
+          <h2>Добро пожаловать, ${currentUser.name}! 👋</h2>
+          <p>Запишитесь к врачу, читайте статьи про здоровье и используйте AI ассистент 24/7!</p>
+        </div>
+        
+        <div class="quick-actions">
+          <a href="#" class="action-card" onclick="document.querySelector('[data-tab=\\'appointments\\']').click(); return false;">
+            <div class="action-icon">📅</div>
+            <h3>Запись к врачу</h3>
+            <p>Выберите врача и время</p>
+          </a>
+          <a href="#" class="action-card" onclick="document.querySelector('[data-tab=\\'articles\\']').click(); return false;">
+            <div class="action-icon">📚</div>
+            <h3>Медицинские статьи</h3>
+            <p>15+ статей про здоровье</p>
+          </a>
+          <a href="#" class="action-card" onclick="toggleAIChat(); return false;">
+            <div class="action-icon">🤖</div>
+            <h3>AI Ассистент</h3>
+            <p>Ответы на медицинские вопросы</p>
+          </a>
+        </div>
+        
         <div class="tabs">
-          <button class="tab-btn active" data-tab="home">🏠 Главная</button>
-          <button class="tab-btn" data-tab="appointments">📅 Записи</button>
-          <button class="tab-btn" data-tab="articles">📚 Здоровье</button>
+          <button class="tab-btn active" data-tab="appointments">📅 Мои записи</button>
+          <button class="tab-btn" data-tab="articles">📚 Статьи</button>
         </div>
         
-        <div class="tab-content" id="home">
-          <div class="welcome-box">
-            <h2>Добро пожаловать, ${currentUser.name}! 👋</h2>
-            <p>Запишитесь к врачу, получите консультацию и улучшайте своё здоровье каждый день!</p>
-          </div>
-          
-          <div class="quick-actions">
-            <a href="#" class="action-card" onclick="document.querySelector('[data-tab=\\'appointments\\']').click(); return false;">
-              <div class="action-icon">📅</div>
-              <h3>Запись к врачу</h3>
-              <p>Выберите врача и время</p>
-            </a>
-            <a href="#" class="action-card" onclick="document.querySelector('[data-tab=\\'articles\\']').click(); return false;">
-              <div class="action-icon">📚</div>
-              <h3>Статьи про здоровье</h3>
-              <p>Полезные советы и информация</p>
-            </a>
-            <a href="#" class="action-card" onclick="toggleAIChat(); return false;">
-              <div class="action-icon">🤖</div>
-              <h3>AI Помощник</h3>
-              <p>Ответы на вопросы про здоровье</p>
-            </a>
-          </div>
-        </div>
-        
-        <div class="tab-content hidden" id="appointments">
+        <div class="tab-content" id="appointments">
           <h2>Ваши записи к врачу</h2>
           ${appointments.length === 0 ? `
             <div class="empty-state">
               <div class="empty-icon">📅</div>
               <p>У вас нет записей</p>
-              <a href="#" class="btn btn-primary" onclick="document.querySelector('.book-section').style.display='block'; return false;">Записаться к врачу</a>
+              <form id="book-form" class="form-box">
+                <h3>Запись к врачу</h3>
+                <div class="form-group">
+                  <label>Выберите врача</label>
+                  <select id="doctor-select" required>
+                    <option value="">-- Выберите врача --</option>
+                    ${database.doctors.map(d => `<option value="${d.id}">${d.name} (${d.specialty})</option>`).join('')}
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Дата приёма</label>
+                  <input type="date" id="appointment-date" required />
+                </div>
+                <div class="form-group">
+                  <label>Время приёма</label>
+                  <input type="time" id="appointment-time" required />
+                </div>
+                <button type="submit" class="btn btn-primary">Записаться →</button>
+              </form>
             </div>
           ` : `
             <div class="card-grid">
@@ -521,32 +578,10 @@ function renderPatientDashboard() {
               `).join('')}
             </div>
           `}
-          
-          <div class="book-section" style="margin-top: 2rem;">
-            <h3>Запись к врачу</h3>
-            <form id="book-form" class="form-box">
-              <div class="form-group">
-                <label>Выберите врача</label>
-                <select id="doctor-select" required>
-                  <option value="">-- Выберите врача --</option>
-                  ${database.doctors.map(d => `<option value="${d.id}">${d.name} (${d.specialty})</option>`).join('')}
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Дата приёма</label>
-                <input type="date" id="appointment-date" required />
-              </div>
-              <div class="form-group">
-                <label>Время приёма</label>
-                <input type="time" id="appointment-time" required />
-              </div>
-              <button type="submit" class="btn btn-primary">Записаться →</button>
-            </form>
-          </div>
         </div>
         
         <div class="tab-content hidden" id="articles">
-          <h2>📚 Советы для здоровья</h2>
+          <h2>📚 Медицинские статьи</h2>
           <div class="articles-grid">
             ${database.articles.map(a => `
               <div class="article-card">
@@ -567,9 +602,6 @@ function renderPatientDashboard() {
 }
 
 function renderDoctorDashboard() {
-  const appointments = getDoctorAppointments();
-  const doctor = database.doctors.find(d => d.name === currentUser.name);
-  
   return `
     <div class="dashboard">
       <nav class="navbar">
@@ -579,53 +611,9 @@ function renderDoctorDashboard() {
           <button class="btn btn-sm" onclick="logout()">Выход</button>
         </div>
       </nav>
-      
       <div class="container">
         <h1>👨‍⚕️ Кабинет врача</h1>
-        
-        <div class="info-box">
-          <p><strong>Специальность:</strong> ${doctor ? doctor.specialty : 'Не указана'}</p>
-          <p><strong>Опыт:</strong> ${doctor ? doctor.experience : 'Нет'}</p>
-          <p><strong>Рейтинг:</strong> ⭐ ${doctor ? doctor.rating : 'Нет оценок'}</p>
-        </div>
-        
-        <h2>📅 Ваши приёмы</h2>
-        ${appointments.length === 0 ? `
-          <div class="empty-state">
-            <div class="empty-icon">📅</div>
-            <p>Нет записанных пациентов</p>
-          </div>
-        ` : `
-          <div class="card-grid">
-            ${appointments.map(a => `
-              <div class="card">
-                <h3>${a.patientName}</h3>
-                <p><strong>Дата:</strong> ${a.date} в ${a.time}</p>
-                <p><strong>Статус:</strong> <span class="badge ${a.status === 'completed' ? 'badge-success' : 'badge-info'}">${a.status === 'completed' ? 'Завершено' : 'Назначено'}</span></p>
-                ${a.status === 'scheduled' ? `
-                  <button class="btn btn-primary btn-sm" onclick="openDiagnosisForm(${a.id})">Записать диагноз</button>
-                ` : ''}
-              </div>
-            `).join('')}
-          </div>
-        `}
-        
-        <div class="tab-content hidden" id="diagnosis-form">
-          <h2>Запись диагноза</h2>
-          <form id="diagnosis-submit" class="form-box">
-            <input type="hidden" id="appointment-id" />
-            <div class="form-group">
-              <label>Диагноз</label>
-              <input type="text" id="diagnosis" placeholder="Введите диагноз" required />
-            </div>
-            <div class="form-group">
-              <label>Назначение</label>
-              <textarea id="prescription" placeholder="Введите назначение" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Сохранить диагноз →</button>
-            <button type="button" class="btn btn-secondary" onclick="closeDiagnosisForm()">Отмена</button>
-          </form>
-        </div>
+        <p>Функционал врача в разработке...</p>
       </div>
     </div>
   `;
@@ -643,10 +631,8 @@ function renderAdminDashboard() {
           <button class="btn btn-sm" onclick="logout()">Выход</button>
         </div>
       </nav>
-      
       <div class="container">
         <h1>👩‍💼 Панель администратора</h1>
-        
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-value">${stats.totalUsers}</div>
@@ -656,24 +642,13 @@ function renderAdminDashboard() {
             <div class="stat-value">${stats.totalDoctors}</div>
             <div class="stat-label">Врачей</div>
           </div>
-          <div class="stat-card">
-            <div class="stat-value">${stats.totalAppointments}</div>
-            <div class="stat-label">Приёмов</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">⭐ ${stats.averageRating}</div>
-            <div class="stat-label">Рейтинг</div>
-          </div>
         </div>
-        
         <div class="tabs">
-          <button class="tab-btn active" data-tab="create-doctor">👨‍⚕️ Создать врача</button>
-          <button class="tab-btn" data-tab="users">👥 Пользователи</button>
-          <button class="tab-btn" data-tab="statistics">📊 Статистика</button>
+          <button class="tab-btn active" data-tab="create-doctor">Создать врача</button>
+          <button class="tab-btn" data-tab="users">Пользователи</button>
         </div>
-        
         <div class="tab-content" id="create-doctor">
-          <h2>👨‍⚕️ Создать аккаунт врача</h2>
+          <h2>Создать аккаунт врача</h2>
           <form id="create-doctor-form" class="form-box">
             <div class="form-group">
               <label>Имя врача</label>
@@ -690,39 +665,16 @@ function renderAdminDashboard() {
             <button type="submit" class="btn btn-primary">Создать врача →</button>
           </form>
         </div>
-        
         <div class="tab-content hidden" id="users">
-          <h2>👥 Управление пользователями</h2>
+          <h2>Пользователи</h2>
           <div class="card-grid">
             ${database.users.map(u => `
               <div class="card">
                 <h3>${u.name}</h3>
                 <p><strong>Email:</strong> ${u.email}</p>
                 <p><strong>Роль:</strong> <span class="badge">${u.role}</span></p>
-                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-                  ${u.role !== 'admin' ? `
-                    <select style="flex: 1; padding: 0.5rem; border-radius: 6px; border: 1px solid rgba(0,212,255,0.3); background: rgba(0,212,255,0.1); color: #fff;" onchange="changeUserRole(${u.id}, this.value)">
-                      <option value="">Роль</option>
-                      <option value="patient">Пациент</option>
-                      <option value="doctor">Врач</option>
-                    </select>
-                    <button class="btn btn-danger btn-sm" onclick="removeUser(${u.id})">Удалить</button>
-                  ` : `
-                    <span style="color: rgba(0,212,255,0.7); padding: 0.5rem;">Администратор</span>
-                  `}
-                </div>
               </div>
             `).join('')}
-          </div>
-        </div>
-        
-        <div class="tab-content hidden" id="statistics">
-          <h2>📊 Статистика системы</h2>
-          <div class="info-box">
-            <p><strong>Всего пользователей:</strong> ${stats.totalUsers}</p>
-            <p><strong>Всего врачей:</strong> ${stats.totalDoctors}</p>
-            <p><strong>Всего приёмов:</strong> ${stats.totalAppointments}</p>
-            <p><strong>Средний рейтинг:</strong> ⭐ ${stats.averageRating}</p>
           </div>
         </div>
       </div>
@@ -785,17 +737,6 @@ function attachEventListeners() {
       bookAppointment(doctorId, date, time);
     });
   }
-  
-  const diagnosisForm = document.getElementById('diagnosis-submit');
-  if (diagnosisForm) {
-    diagnosisForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const appointmentId = parseInt(document.getElementById('appointment-id').value);
-      const diagnosis = document.getElementById('diagnosis').value;
-      const prescription = document.getElementById('prescription').value;
-      completeDiagnosis(appointmentId, diagnosis, prescription);
-    });
-  }
 
   const aiInput = document.getElementById('ai-input');
   if (aiInput) {
@@ -805,17 +746,6 @@ function attachEventListeners() {
       }
     });
   }
-}
-
-// ===== HELPER FUNCTIONS =====
-function openDiagnosisForm(appointmentId) {
-  const form = document.getElementById('diagnosis-form');
-  document.getElementById('appointment-id').value = appointmentId;
-  form.classList.remove('hidden');
-}
-
-function closeDiagnosisForm() {
-  document.getElementById('diagnosis-form').classList.add('hidden');
 }
 
 // ===== INIT =====
