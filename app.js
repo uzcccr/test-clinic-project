@@ -108,7 +108,7 @@ function loadDatabase() {
       localStorage.removeItem('currentUserEmail');
     }
   }
-}}
+}
 
 function saveDatabase() {
   localStorage.setItem('medportData', JSON.stringify(database));
@@ -134,7 +134,7 @@ function login(email, password) {
   localStorage.setItem('currentUser', JSON.stringify(currentUser));
   localStorage.setItem('currentUserEmail', user.email);
   renderApp();
-}}
+}
 
 function register(name, email, password, passwordConfirm) {
   if (!name || !email || !password) {
@@ -183,7 +183,7 @@ function logout() {
   localStorage.removeItem('currentUser');
   localStorage.removeItem('currentUserEmail');
   renderApp();
-}}
+}
 
 // ===== APPOINTMENTS =====
 function bookAppointment(doctorId, date, time) {
