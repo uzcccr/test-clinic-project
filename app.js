@@ -95,6 +95,20 @@ function loadDatabase() {
   if (saved) {
     database = JSON.parse(saved);
   }
+  
+  const savedUser = localStorage.getItem('currentUser');
+  const lastEmail = localStorage.getItem('lastLoginEmail');
+  
+  if (savedUser && lastEmail) {
+    const userFromDB = database.users.find(u => u.email === lastEmail);
+    if (userFromDB && !userFromDB.blocked) {
+      currentUser = { ...userFromDB };
+    } else {
+      currentUser = null;
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('lastLoginEmail');
+    }
+  }
 }
 
 function saveDatabase() {
@@ -118,6 +132,8 @@ function login(email, password) {
     return;
   }
   currentUser = { ...user };
+  localStorage.setItem('currentUser', JSON.stringify(currentUser));
+  localStorage.setItem('lastLoginEmail', email);
   renderApp();
 }
 
@@ -165,6 +181,8 @@ function logout() {
   currentUser = null;
   isRegistering = false;
   showAIChat = false;
+  localStorage.removeItem('currentUser');
+  localStorage.removeItem('lastLoginEmail');
   renderApp();
 }
 
