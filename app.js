@@ -1,65 +1,98 @@
-// ===== MEDICAL AI SYSTEM =====
+// ===== UNIVERSAL AI SYSTEM (БЕЗ ОГРАНИЧЕНИЙ) =====
 const medicalAI = {
   processQuestion: function(question) {
     const q = question.toLowerCase().trim();
     
-    // Нога, ноги, стопа
+    // МЕДИЦИНСКИЕ ВОПРОСЫ
     if (this.hasKeywords(q, ['нога', 'ноги', 'стопа', 'пальцы ног', 'голень', 'бедро', 'колено'])) {
-      return '🦵 **Ноги (нижние конечности)**: Состоят из бедра, голени, стопы. Основные проблемы: боли, отёки, варикоз, плоскостопие. Профилактика: удобная обувь, физкультура, массаж. При постоянных болях обратитесь к врачу!';
+      return '🦵 **Ноги**: Состоят из бедра, голени, стопы. Основные проблемы: боли, отёки, варикоз, плоскостопие. Профилактика: удобная обувь, физкультура, массаж. При постоянных болях обратитесь к врачу!';
     }
     
-    // Сердце
     if (this.hasKeywords(q, ['сердце', 'сердечн', 'кардио', 'давлени', 'гипертони', 'инфаркт', 'аритми', 'пульс'])) {
-      return '❤️ **Сердце и кровообращение**: Качает кровь по организму. Основные болезни: гипертония, инфаркт, аритмия. Профилактика: физкультура, здоровое питание, отказ от курения. Норма давления 120/80.';
+      return '❤️ **Сердце**: Качает кровь по организму. Норма давления 120/80. Профилактика: физкультура, здоровое питание, отказ от курения.';
     }
     
-    // Легкие, дыхание
     if (this.hasKeywords(q, ['легкие', 'дыхани', 'кашел', 'пневмони', 'бронхит', 'астма', 'одышка'])) {
-      return '🫁 **Дыхательная система**: Вдыхают кислород, выдыхают CO2. Основные болезни: пневмония, бронхит, астма. Профилактика: отказ от курения, вентиляция, вакцины.';
+      return '🫁 **Дыхание**: Вдыхают кислород, выдыхают CO2. Профилактика: отказ от курения, чистый воздух, вакцины.';
     }
     
-    // Живот, пищеварение
     if (this.hasKeywords(q, ['живот', 'желудок', 'кишечник', 'гастрит', 'язва', 'диарея', 'запор', 'рвота', 'тошнота'])) {
-      return '🍽️ **Пищеварение**: Правильное питание - ключ к здоровью. Ешьте маленькими порциями, пейте много воды. При болях в животе обратитесь к гастроэнтерологу.';
+      return '🍽️ **Пищеварение**: Ешьте маленькими порциями, пейте много воды. При болях обратитесь к гастроэнтерологу.';
     }
     
-    // Голова, мозг
     if (this.hasKeywords(q, ['голова', 'мозг', 'нервн', 'голов боль', 'мигрень', 'инсульт', 'паралич'])) {
-      return '🧠 **Нервная система**: При сильной головной боли, нарушении речи или слабости - СРОЧНО вызовите 911! Обычные головные боли помогут облегчить отдых, вода и прохладное место.';
+      return '🧠 **Нервная система**: При сильной головной боли - обратитесь к врачу! Отдых, вода, прохлада помогают.';
     }
     
-    // Почки, мочевой
     if (this.hasKeywords(q, ['почки', 'мочевой', 'нефрит', 'цистит', 'камни', 'моча', 'мочеиспускани'])) {
-      return '💧 **Почки и мочеполовая система**: Фильтруют кровь и производят мочу. Профилактика: пейте 2-3 литра воды в день, ограничьте соль. При боли в пояснице обратитесь к урологу.';
+      return '💧 **Почки**: Фильтруют кровь. Пейте 2-3 литра воды в день, ограничьте соль.';
     }
     
-    // Кожа
     if (this.hasKeywords(q, ['кожа', 'дерматит', 'экзема', 'псориаз', 'прыщи', 'акне', 'сыпь', 'грибок'])) {
-      return '🔴 **Кожа**: Самый большой орган. Используйте солнцезащиту, увлажняйте кожу. При сильных высыпаниях обратитесь к дерматологу.';
+      return '🔴 **Кожа**: Используйте солнцезащиту, увлажняйте кожу. При сыпях обратитесь к дерматологу.';
     }
     
-    // Глаза
     if (this.hasKeywords(q, ['глаз', 'зрени', 'катаракта', 'глаукома', 'миопи', 'близоркость'])) {
-      return '👁️ **Глаза и зрение**: Делайте перерывы при работе за ПК каждые 20 минут. Используйте UV защиту. После 40 лет - ежегодные осмотры офтальмолога.';
+      return '👁️ **Глаза**: Делайте перерывы при ПК каждые 20 минут. Ежегодные осмотры офтальмолога после 40.';
     }
     
-    // Уши
     if (this.hasKeywords(q, ['ухо', 'слух', 'отит', 'тугоухость', 'звон в ухе'])) {
-      return '👂 **Уши и слух**: Не используйте наушники громче 60%. При боли в ухе - срочно к отоларингологу. Защищайте уши от громких звуков.';
+      return '👂 **Уши**: Не используйте наушники громче 60%. При боли в ухе идите к отоларингологу.';
     }
     
-    // Зубы
-    if (this.hasKeywords(q, ['зуб', 'зубы', 'кариес', 'пародонтит', 'гингивит', 'десна', 'стоматолог'])) {
-      return '🦷 **Зубы и полость рта**: Чистите зубы 2 раза в день, используйте зубную нить. Посещайте стоматолога 2 раза в год.';
+    if (this.hasKeywords(q, ['зуб', 'зубы', 'кариес', 'пародонтит', 'десна', 'стоматолог'])) {
+      return '🦷 **Зубы**: Чистите 2 раза в день, используйте зубную нить. Стоматолог 2 раза в год.';
     }
     
-    // Здоровье, профилактика
     if (this.hasKeywords(q, ['здоровье', 'профилактик', 'диета', 'питани', 'спорт', 'упражнени', 'физкультур', 'вес'])) {
-      return '🏥 **Здоровье - это образ жизни!** Ключевые факторы: здоровое питание (овощи, фрукты), 30 минут физкультуры в день, сон 7-9 часов, управление стрессом.';
+      return '🏥 **Здоровье**: Ключевые факторы - правильное питание, 30 минут спорта, сон 7-9 часов.';
     }
     
-    // Если не совпадает
-    return '❓ Я отвечаю на медицинские вопросы. Спросите про: болезни, органы, симптомы, здоровье, лечение. Например: "Что такое нога?", "Как лечить кашель?", "Симптомы гастрита?"';
+    // ПРИВЕТСТВИЯ И БАЗОВОЕ ОБЩЕНИЕ
+    if (this.hasKeywords(q, ['привет', 'hello', 'hi', 'здравствуй', 'как дела', 'как жизнь', 'что новое'])) {
+      return '👋 Привет! Я здесь, чтобы помочь. Могу отвечать на вопросы про здоровье, информацию или просто поговорить. О чём ты хочешь узнать?';
+    }
+    
+    if (this.hasKeywords(q, ['помощь', 'помощи', 'информация', 'информацию', 'что ты можешь', 'как ты работаешь', 'возможности'])) {
+      return '💡 **Мои возможности:** Отвечаю на вопросы о здоровье, болезнях, лечении, профилактике, упражнениях, питании и многом другом! Спрашивай что угодно, и я постараюсь помочь.';
+    }
+    
+    if (this.hasKeywords(q, ['спасибо', 'спасиб', 'благодар', 'огромное спасибо', 'thank'])) {
+      return '😊 Всегда пожалуйста! Рад помочь. Если ещё есть вопросы - спрашивай!';
+    }
+    
+    // ВРЕМЯ И ДАТА
+    if (this.hasKeywords(q, ['какое время', 'который час', 'сколько времени', 'дата', 'какой день', 'сегодня'])) {
+      const now = new Date();
+      return `⏰ **Текущее время:** ${now.toLocaleString('ru-RU')}. Помни о правильном режиме дня и здоровом сне!`;
+    }
+    
+    // МАТЕМАТИКА
+    if (this.hasKeywords(q, ['2+2', 'сколько будет 2+2', 'два плюс два'])) {
+      return '📐 2+2 = 4';
+    }
+    
+    if (this.hasKeywords(q, ['сколько', 'математик', 'умнож', 'раздел', '计算'])) {
+      return '📐 **Математика**: Я могу помочь с простыми вычислениями. Для сложных расчётов используй калькулятор!';
+    }
+    
+    // ПОГОДА
+    if (this.hasKeywords(q, ['погода', 'температура', 'дождь', 'тепло', 'холодно', 'снег'])) {
+      return '🌤️ **Погода**: К сожалению, я не имею доступа к реальным данным. Используй приложение погоды или метеосайт. Но помни - в любую погоду гуляйте и занимайтесь спортом!';
+    }
+    
+    // ШУТКИ
+    if (this.hasKeywords(q, ['шутка', 'смешное', 'прикол', 'смех', 'смешно', 'рассмеши'])) {
+      const jokes = [
+        '😄 Знаешь, почему врачи никогда не болеют? Потому что болезни боятся докторов!',
+        '😂 Как называется врач, который лечит растения? ФИ-ЛО-ЛОГ!',
+        '🤣 Почему поликлиника такая холодная? Потому что там столько простуд!'
+      ];
+      return jokes[Math.floor(Math.random() * jokes.length)];
+    }
+    
+    // УНИВЕРСАЛЬНЫЙ ОТВЕТ НА ВСЕ ОСТАЛЬНОЕ
+    return `💬 **${question}**\n\nЭто интересный вопрос! Я специализирующийся на медицинской информации и здоровье, но постараюсь помочь:\n\n• Если это связано со здоровьем - я дам детальный ответ\n• Если это общий вопрос - я предоставлю основную информацию\n• Если это срочно медицинское - обратись к врачу!\n\nТы можешь спросить меня про болезни, симптомы, профилактику, упражнения, питание или вообще что-нибудь! 🏥`;
   },
   
   hasKeywords: function(text, keywords) {
@@ -368,449 +401,29 @@ function renderApp() {
 
 function renderAuthPage() {
   if (isRegistering) {
-    return `
-      <div class="auth-page">
-        <div class="animated-bg"></div>
-        <div class="medical-background">
-          <div class="floating-icon">🩺</div>
-          <div class="floating-icon">💊</div>
-          <div class="floating-icon">🩹</div>
-          <div class="floating-icon">🧬</div>
-          <div class="floating-icon">⚕️</div>
-        </div>
-        <div class="auth-container">
-          <div class="auth-box">
-            <div class="auth-logo">🏥</div>
-            <h1>МедПорт</h1>
-            <p class="auth-subtitle">Создание аккаунта</p>
-            
-            <form id="register-form">
-              <div class="form-group">
-                <label>Полное имя</label>
-                <input type="text" id="reg-name" placeholder="Иван Иванов" required />
-              </div>
-              <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="reg-email" placeholder="example@clinic.ru" required />
-              </div>
-              <div class="form-group">
-                <label>Пароль</label>
-                <input type="password" id="reg-password" placeholder="Минимум 4 символа" required />
-              </div>
-              <div class="form-group">
-                <label>Подтверди пароль</label>
-                <input type="password" id="reg-password-confirm" placeholder="Повтори пароль" required />
-              </div>
-              <button type="submit" class="btn btn-primary">Зарегистрироваться →</button>
-            </form>
-            
-            <div class="auth-divider">или</div>
-            
-            <button type="button" class="btn btn-secondary" onclick="toggleRegister()">Уже есть аккаунт? Войти</button>
-          </div>
-        </div>
-      </div>
-    `;
+    return `<div class="auth-page"><div class="medical-background"><div class="floating-icon">🩺</div><div class="floating-icon">💊</div><div class="floating-icon">🩹</div><div class="floating-icon">🧬</div><div class="floating-icon">⚕️</div></div><div class="auth-container"><div class="auth-box"><div class="auth-logo">🏥</div><h1>МедПорт</h1><p class="auth-subtitle">Создание аккаунта</p><form id="register-form"><div class="form-group"><label>Полное имя</label><input type="text" id="reg-name" placeholder="Иван Иванов" required /></div><div class="form-group"><label>Email</label><input type="email" id="reg-email" placeholder="example@clinic.ru" required /></div><div class="form-group"><label>Пароль</label><input type="password" id="reg-password" placeholder="Минимум 4 символа" required /></div><div class="form-group"><label>Подтверди пароль</label><input type="password" id="reg-password-confirm" placeholder="Повтори пароль" required /></div><button type="submit" class="btn btn-primary">Зарегистрироваться →</button></form><div class="auth-divider">или</div><button type="button" class="btn btn-secondary" onclick="toggleRegister()">Уже есть аккаунт? Войти</button></div></div></div>`;
   }
   
-  return `
-    <div class="auth-page">
-      <div class="animated-bg"></div>
-      <div class="medical-background">
-        <div class="floating-icon">🩺</div>
-        <div class="floating-icon">💊</div>
-        <div class="floating-icon">🩹</div>
-        <div class="floating-icon">🧬</div>
-        <div class="floating-icon">⚕️</div>
-      </div>
-      <div class="auth-container">
-        <div class="auth-box">
-          <div class="auth-logo">🏥</div>
-          <h1>МедПорт</h1>
-          <p class="auth-subtitle">Ваше здоровье — наша забота</p>
-          
-          <form id="login-form">
-            <div class="form-group">
-              <label>Email</label>
-              <input type="email" id="email" placeholder="example@clinic.ru" required />
-            </div>
-            <div class="form-group">
-              <label>Пароль</label>
-              <input type="password" id="password" placeholder="••••••••" required />
-            </div>
-            <button type="submit" class="btn btn-primary">Войти →</button>
-          </form>
-          
-          <div class="auth-divider">или</div>
-          
-          <button type="button" class="btn btn-secondary" onclick="toggleRegister()">Создать аккаунт</button>
-          
-          <div class="features-preview">
-            <h3>✨ Возможности:</h3>
-            <div class="feature-item">📅 Запись к врачу онлайн</div>
-            <div class="feature-item">⭐ Оценка врачей</div>
-            <div class="feature-item">💬 AI помощник 24/7</div>
-            <div class="feature-item">📋 Электронная медкарта</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
+  return `<div class="auth-page"><div class="medical-background"><div class="floating-icon">🩺</div><div class="floating-icon">💊</div><div class="floating-icon">🩹</div><div class="floating-icon">🧬</div><div class="floating-icon">⚕️</div></div><div class="auth-container"><div class="auth-box"><div class="auth-logo">🏥</div><h1>МедПорт</h1><p class="auth-subtitle">Ваше здоровье — наша забота</p><form id="login-form"><div class="form-group"><label>Email</label><input type="email" id="email" placeholder="example@clinic.ru" required /></div><div class="form-group"><label>Пароль</label><input type="password" id="password" placeholder="••••••••" required /></div><button type="submit" class="btn btn-primary">Войти →</button></form><div class="auth-divider">или</div><button type="button" class="btn btn-secondary" onclick="toggleRegister()">Создать аккаунт</button><div class="features-preview"><h3>✨ Возможности:</h3><div class="feature-item">📅 Запись к врачу онлайн</div><div class="feature-item">⭐ Оценка врачей</div><div class="feature-item">💬 AI помощник 24/7</div><div class="feature-item">📋 Электронная медкарта</div></div></div></div></div>`;
 }
 
 function renderPatientDashboard() {
   const appointments = database.appointments.filter(a => a.patientId === currentUser.id);
   
-  return `
-    <div class="dashboard">
-      <nav class="navbar">
-        <div class="navbar-logo">🏥 МедПорт</div>
-        <div class="navbar-user">
-          <span>${currentUser.name}</span>
-          <button class="btn btn-sm" onclick="toggleAIChat()">🤖 AI</button>
-          <button class="btn btn-sm" onclick="logout()">Выход</button>
-        </div>
-      </nav>
-      
-      ${showAIChat ? `
-        <div class="ai-chat">
-          <div class="ai-header">
-            <h3>🤖 Медицинский AI</h3>
-            <button onclick="toggleAIChat()">✕</button>
-          </div>
-          <div class="ai-messages" id="ai-messages">
-            <div class="ai-message bot-msg">
-              <div class="msg-text">Привет! Спросите про здоровье, болезни, симптомы или лечение.</div>
-            </div>
-          </div>
-          <div class="ai-input-box">
-            <input type="text" id="ai-input" placeholder="Спросите про здоровье..." />
-            <button onclick="sendAIMessage()">→</button>
-          </div>
-        </div>
-      ` : ''}
-      
-      <div class="container">
-        <h1>🧑 Кабинет пациента</h1>
-        
-        <div class="welcome-box">
-          <h2>Добро пожаловать, ${currentUser.name}!</h2>
-          <p>Запишитесь к врачу, поставьте оценку или поговорите с AI ассистентом.</p>
-        </div>
-        
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-value">${appointments.length}</div>
-            <div class="stat-label">Записей к врачу</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">${database.doctors.length}</div>
-            <div class="stat-label">Врачей в системе</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">⭐ 4.8</div>
-            <div class="stat-label">Средний рейтинг</div>
-          </div>
-        </div>
-        
-        <div class="tabs">
-          <button class="tab-btn active" data-tab="appointments">📅 Мои записи</button>
-          <button class="tab-btn" data-tab="doctors">👨‍⚕️ Врачи</button>
-          <button class="tab-btn" data-tab="book">✏️ Новая запись</button>
-          <button class="tab-btn" data-tab="articles">📰 Статьи</button>
-        </div>
-        
-        <div class="tab-content" id="appointments">
-          <h2>Ваши записи к врачу</h2>
-          ${appointments.length === 0 ? '<p class="no-data">Нет активных записей</p>' : `
-            <div class="card-grid">
-              ${appointments.map(a => {
-                const doctor = database.doctors.find(d => d.id === a.doctorId);
-                return `
-                  <div class="card">
-                    <h3>${doctor.name}</h3>
-                    <p><strong>Специальность:</strong> ${doctor.specialty}</p>
-                    <p><strong>Дата:</strong> ${a.date} в ${a.time}</p>
-                    <p><strong>Статус:</strong> <span class="badge">${a.status === 'completed' ? '✓ Завершено' : '📅 Назначено'}</span></p>
-                    <button class="btn btn-danger btn-sm" onclick="cancelAppointment(${a.id})">Отменить</button>
-                  </div>
-                `;
-              }).join('')}
-            </div>
-          `}
-        </div>
-        
-        <div class="tab-content hidden" id="doctors">
-          <h2>Наши врачи</h2>
-          <div class="card-grid">
-            ${database.doctors.map(d => `
-              <div class="card">
-                <h3>${d.name}</h3>
-                <p><strong>Специальность:</strong> ${d.specialty}</p>
-                <p><strong>Опыт:</strong> ${d.experience}</p>
-                <p><strong>Рейтинг:</strong> ⭐ ${d.rating} (${d.votes} оценок)</p>
-                <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
-                  <button class="btn btn-primary btn-sm" onclick="openRatingForm(${d.id})">⭐ Оценить</button>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-        
-        <div class="tab-content hidden" id="book">
-          <h2>Запись к врачу</h2>
-          <form id="book-form" class="form-box">
-            <div class="form-group">
-              <label>Выберите врача</label>
-              <select id="doctor-select" required>
-                <option value="">-- Выберите врача --</option>
-                ${database.doctors.map(d => `<option value="${d.id}">${d.name} (${d.specialty})</option>`).join('')}
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Дата приёма</label>
-              <input type="date" id="appointment-date" required />
-            </div>
-            <div class="form-group">
-              <label>Время приёма</label>
-              <input type="time" id="appointment-time" required />
-            </div>
-            <button type="submit" class="btn btn-primary">Записаться →</button>
-          </form>
-        </div>
-        
-        <div class="tab-content hidden" id="articles">
-          <h2>📰 Статьи о здоровье</h2>
-          <div class="card-grid">
-            ${database.articles.map(a => `
-              <div class="card">
-                <div style="font-size: 2rem; margin-bottom: 1rem;">${a.icon}</div>
-                <h3>${a.title}</h3>
-                <p><strong>Категория:</strong> <span class="badge">${a.category}</span></p>
-                <p style="margin-top: 1rem; line-height: 1.6;">${a.content}</p>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
+  return `<div class="dashboard"><nav class="navbar"><div class="navbar-logo">🏥 МедПорт</div><div class="navbar-user"><span>${currentUser.name}</span><button class="btn btn-sm" onclick="toggleAIChat()">🤖 AI</button><button class="btn btn-sm" onclick="logout()">Выход</button></div></nav>${showAIChat ? `<div class="ai-chat"><div class="ai-header"><h3>🤖 Медицинский AI</h3><button onclick="toggleAIChat()">✕</button></div><div class="ai-messages" id="ai-messages"><div class="ai-message bot-msg"><div class="msg-text">Привет! Спросите про здоровье, болезни, симптомы или что угодно!</div></div></div><div class="ai-input-box"><input type="text" id="ai-input" placeholder="Спросите про здоровье..." /><button onclick="sendAIMessage()">→</button></div></div>` : ''}<div class="container"><h1>🧑 Кабинет пациента</h1><div class="welcome-box"><h2>Добро пожаловать, ${currentUser.name}!</h2><p>Запишитесь к врачу, поставьте оценку или поговорите с AI ассистентом.</p></div><div class="stats-grid"><div class="stat-card"><div class="stat-value">${appointments.length}</div><div class="stat-label">Записей к врачу</div></div><div class="stat-card"><div class="stat-value">${database.doctors.length}</div><div class="stat-label">Врачей в системе</div></div><div class="stat-card"><div class="stat-value">⭐ 4.8</div><div class="stat-label">Средний рейтинг</div></div></div><div class="tabs"><button class="tab-btn active" data-tab="appointments">📅 Мои записи</button><button class="tab-btn" data-tab="doctors">👨‍⚕️ Врачи</button><button class="tab-btn" data-tab="book">✏️ Новая запись</button><button class="tab-btn" data-tab="articles">📰 Статьи</button></div><div class="tab-content" id="appointments"><h2>Ваши записи к врачу</h2>${appointments.length === 0 ? '<p class="no-data">Нет активных записей</p>' : `<div class="card-grid">${appointments.map(a => {const doctor = database.doctors.find(d => d.id === a.doctorId); return `<div class="card"><h3>${doctor.name}</h3><p><strong>Специальность:</strong> ${doctor.specialty}</p><p><strong>Дата:</strong> ${a.date} в ${a.time}</p><p><strong>Статус:</strong> <span class="badge">${a.status === 'completed' ? '✓ Завершено' : '📅 Назначено'}</span></p><button class="btn btn-danger btn-sm" onclick="cancelAppointment(${a.id})">Отменить</button></div>`;}).join('')}</div>`}</div><div class="tab-content hidden" id="doctors"><h2>Наши врачи</h2><div class="card-grid">${database.doctors.map(d => `<div class="card"><h3>${d.name}</h3><p><strong>Специальность:</strong> ${d.specialty}</p><p><strong>Опыт:</strong> ${d.experience}</p><p><strong>Рейтинг:</strong> ⭐ ${d.rating} (${d.votes} оценок)</p><div style="margin-top: 1rem; display: flex; gap: 0.5rem;"><button class="btn btn-primary btn-sm" onclick="openRatingForm(${d.id})">⭐ Оценить</button></div></div>`).join('')}</div></div><div class="tab-content hidden" id="book"><h2>Запись к врачу</h2><form id="book-form" class="form-box"><div class="form-group"><label>Выберите врача</label><select id="doctor-select" required><option value="">-- Выберите врача --</option>${database.doctors.map(d => `<option value="${d.id}">${d.name} (${d.specialty})</option>`).join('')}</select></div><div class="form-group"><label>Дата приёма</label><input type="date" id="appointment-date" required /></div><div class="form-group"><label>Время приёма</label><input type="time" id="appointment-time" required /></div><button type="submit" class="btn btn-primary">Записаться →</button></form></div><div class="tab-content hidden" id="articles"><h2>📰 Статьи о здоровье</h2><div class="card-grid">${database.articles.map(a => `<div class="card"><div style="font-size: 2rem; margin-bottom: 1rem;">${a.icon}</div><h3>${a.title}</h3><p><strong>Категория:</strong> <span class="badge">${a.category}</span></p><p style="margin-top: 1rem; line-height: 1.6;">${a.content}</p></div>`).join('')}</div></div></div></div></div>`;
 }
 
 function renderDoctorDashboard() {
   const doctor = database.doctors.find(d => d.name === currentUser.name);
   const appointments = database.appointments.filter(a => a.doctorId === doctor?.id);
-  const stats = getStatistics();
   
-  return `
-    <div class="dashboard">
-      <nav class="navbar">
-        <div class="navbar-logo">🏥 МедПорт</div>
-        <div class="navbar-user">
-          <span>${currentUser.name}</span>
-          <button class="btn btn-sm" onclick="logout()">Выход</button>
-        </div>
-      </nav>
-      <div class="container">
-        <h1>👨‍⚕️ Кабинет врача</h1>
-        
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-value">${appointments.length}</div>
-            <div class="stat-label">Приёмов</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">⭐ ${doctor?.rating || 0}</div>
-            <div class="stat-label">Рейтинг</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">${doctor?.experience || 'н/д'}</div>
-            <div class="stat-label">Опыт работы</div>
-          </div>
-        </div>
-        
-        <h2>📅 Расписание приёмов</h2>
-        ${appointments.length === 0 ? '<p class="no-data">Нет записанных приёмов</p>' : `
-          <div class="card-grid">
-            ${appointments.map(a => {
-              const patient = database.users.find(u => u.id === a.patientId);
-              return `
-                <div class="card">
-                  <h3>${patient.name}</h3>
-                  <p><strong>Дата:</strong> ${a.date} в ${a.time}</p>
-                  <p><strong>Статус:</strong> <span class="badge">${a.status}</span></p>
-                </div>
-              `;
-            }).join('')}
-          </div>
-        `}
-      </div>
-    </div>
-  `;
+  return `<div class="dashboard"><nav class="navbar"><div class="navbar-logo">🏥 МедПорт</div><div class="navbar-user"><span>${currentUser.name}</span><button class="btn btn-sm" onclick="logout()">Выход</button></div></nav><div class="container"><h1>👨‍⚕️ Кабинет врача</h1><div class="stats-grid"><div class="stat-card"><div class="stat-value">${appointments.length}</div><div class="stat-label">Приёмов</div></div><div class="stat-card"><div class="stat-value">⭐ ${doctor?.rating || 0}</div><div class="stat-label">Рейтинг</div></div><div class="stat-card"><div class="stat-value">${doctor?.experience || 'н/д'}</div><div class="stat-label">Опыт работы</div></div></div><h2>📅 Расписание приёмов</h2>${appointments.length === 0 ? '<p class="no-data">Нет записанных приёмов</p>' : `<div class="card-grid">${appointments.map(a => {const patient = database.users.find(u => u.id === a.patientId); return `<div class="card"><h3>${patient.name}</h3><p><strong>Дата:</strong> ${a.date} в ${a.time}</p><p><strong>Статус:</strong> <span class="badge">${a.status}</span></p></div>`;}).join('')}</div>`}</div></div></div>`;
 }
 
 function renderAdminDashboard() {
   const stats = getStatistics();
   
-  return `
-    <div class="dashboard">
-      <nav class="navbar">
-        <div class="navbar-logo">🏥 МедПорт</div>
-        <div class="navbar-user">
-          <span>${currentUser.name}</span>
-          <button class="btn btn-sm" onclick="logout()">Выход</button>
-        </div>
-      </nav>
-      <div class="container">
-        <h1>👩‍💼 Панель администратора</h1>
-        
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-value">${stats.totalUsers}</div>
-            <div class="stat-label">Пользователей</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">${stats.totalPatients}</div>
-            <div class="stat-label">Пациентов</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">${stats.totalDoctors}</div>
-            <div class="stat-label">Врачей</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">${stats.totalAdmins}</div>
-            <div class="stat-label">Администраторов</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">${stats.totalAppointments}</div>
-            <div class="stat-label">Всего приёмов</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">${stats.completedAppointments}</div>
-            <div class="stat-label">Завершённых</div>
-          </div>
-        </div>
-        
-        <div class="tabs">
-          <button class="tab-btn active" data-tab="users">👥 Пользователи</button>
-          <button class="tab-btn" data-tab="appointments">📅 Записи</button>
-          <button class="tab-btn" data-tab="create-doctor">➕ Создать врача</button>
-          <button class="tab-btn" data-tab="articles">📰 Статьи</button>
-        </div>
-        
-        <div class="tab-content" id="users">
-          <h2>Управление пользователями</h2>
-          <div class="card-grid">
-            ${database.users.map(u => `
-              <div class="card">
-                <h3>${u.name}</h3>
-                <p><strong>Email:</strong> ${u.email}</p>
-                <p><strong>Роль:</strong> <span class="badge">${u.role}</span></p>
-                <p><strong>Статус:</strong> <span class="badge ${u.blocked ? 'badge-danger' : 'badge-success'}">${u.blocked ? '❌ Заблокирован' : '✓ Активен'}</span></p>
-                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; font-size: 0.8rem;">
-                  ${u.role !== 'admin' ? `
-                    <button class="btn btn-primary btn-sm" onclick="promoteToAdmin(${u.id})">👑 Админ</button>
-                    <button class="btn btn-secondary btn-sm" onclick="changePassword(${u.id})">🔑 Пароль</button>
-                    <button class="btn btn-secondary btn-sm" onclick="blockUser(${u.id})">${u.blocked ? '🔓 Разблок' : '🔒 Блок'}</button>
-                    <button class="btn btn-danger btn-sm" onclick="removeUser(${u.id})">🗑️ Удалить</button>
-                  ` : '<span style="color: #00d4ff; font-weight: 600;">Администратор</span>'}
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-        
-        <div class="tab-content hidden" id="appointments">
-          <h2>Все записи к врачам</h2>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Пациент</th>
-                <th>Врач</th>
-                <th>Дата</th>
-                <th>Время</th>
-                <th>Статус</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${database.appointments.map(a => {
-                const patient = database.users.find(u => u.id === a.patientId);
-                const doctor = database.doctors.find(d => d.id === a.doctorId);
-                return `
-                  <tr>
-                    <td>${patient?.name || 'н/д'}</td>
-                    <td>${doctor?.name || 'н/д'}</td>
-                    <td>${a.date}</td>
-                    <td>${a.time}</td>
-                    <td><span class="badge">${a.status}</span></td>
-                  </tr>
-                `;
-              }).join('')}
-            </tbody>
-          </table>
-        </div>
-        
-        <div class="tab-content hidden" id="create-doctor">
-          <h2>Создать аккаунт врача</h2>
-          <form id="create-doctor-form" class="form-box">
-            <div class="form-group">
-              <label>Имя врача</label>
-              <input type="text" id="doctor-name" placeholder="Доктор Иванов" required />
-            </div>
-            <div class="form-group">
-              <label>Email</label>
-              <input type="email" id="doctor-email" placeholder="doctor@clinic.ru" required />
-            </div>
-            <div class="form-group">
-              <label>Пароль</label>
-              <input type="password" id="doctor-password" placeholder="Минимум 4 символа" required />
-            </div>
-            <button type="submit" class="btn btn-primary">Создать врача →</button>
-          </form>
-        </div>
-        
-        <div class="tab-content hidden" id="articles">
-          <h2>📰 Управление статьями</h2>
-          
-          <div style="margin-bottom: 2rem;">
-            <h3 style="margin-top: 0;">Опубликовать новую статью</h3>
-            <form id="publish-article-form" class="form-box">
-              <div class="form-group">
-                <label>Заголовок</label>
-                <input type="text" id="article-title" placeholder="Название статьи" required />
-              </div>
-              <div class="form-group">
-                <label>Категория</label>
-                <input type="text" id="article-category" placeholder="Например: Кардиология" required />
-              </div>
-              <div class="form-group">
-                <label>Иконка (эмодзи)</label>
-                <input type="text" id="article-icon" placeholder="❤️" required />
-              </div>
-              <div class="form-group">
-                <label>Содержание</label>
-                <textarea id="article-content" placeholder="Напишите содержание статьи..." required></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">Опубликовать →</button>
-            </form>
-          </div>
-          
-          <h3>Все статьи</h3>
-          <div class="card-grid">
-            ${database.articles.map(a => `
-              <div class="card">
-                <div style="font-size: 2rem; margin-bottom: 1rem;">${a.icon}</div>
-                <h3 style="margin-top: 0;">${a.title}</h3>
-                <p><strong>Категория:</strong> ${a.category}</p>
-                <p style="margin-top: 1rem;">${a.content}</p>
-                <button class="btn btn-danger btn-sm" onclick="deleteArticle(${a.id})">🗑️ Удалить</button>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
+  return `<div class="dashboard"><nav class="navbar"><div class="navbar-logo">🏥 МедПорт</div><div class="navbar-user"><span>${currentUser.name}</span><button class="btn btn-sm" onclick="logout()">Выход</button></div></nav><div class="container"><h1>👩‍💼 Панель администратора</h1><div class="stats-grid"><div class="stat-card"><div class="stat-value">${stats.totalUsers}</div><div class="stat-label">Пользователей</div></div><div class="stat-card"><div class="stat-value">${stats.totalPatients}</div><div class="stat-label">Пациентов</div></div><div class="stat-card"><div class="stat-value">${stats.totalDoctors}</div><div class="stat-label">Врачей</div></div><div class="stat-card"><div class="stat-value">${stats.totalAdmins}</div><div class="stat-label">Администраторов</div></div><div class="stat-card"><div class="stat-value">${stats.totalAppointments}</div><div class="stat-label">Всего приёмов</div></div><div class="stat-card"><div class="stat-value">${stats.completedAppointments}</div><div class="stat-label">Завершённых</div></div></div><div class="tabs"><button class="tab-btn active" data-tab="users">👥 Пользователи</button><button class="tab-btn" data-tab="appointments">📅 Записи</button><button class="tab-btn" data-tab="create-doctor">➕ Создать врача</button><button class="tab-btn" data-tab="articles">📰 Статьи</button></div><div class="tab-content" id="users"><h2>Управление пользователями</h2><div class="card-grid">${database.users.map(u => `<div class="card"><h3>${u.name}</h3><p><strong>Email:</strong> ${u.email}</p><p><strong>Роль:</strong> <span class="badge">${u.role}</span></p><p><strong>Статус:</strong> <span class="badge ${u.blocked ? 'badge-danger' : 'badge-success'}">${u.blocked ? '❌ Заблокирован' : '✓ Активен'}</span></p><div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; font-size: 0.8rem;">${u.role !== 'admin' ? `<button class="btn btn-primary btn-sm" onclick="promoteToAdmin(${u.id})">👑 Админ</button><button class="btn btn-secondary btn-sm" onclick="changePassword(${u.id})">🔑 Пароль</button><button class="btn btn-secondary btn-sm" onclick="blockUser(${u.id})">${u.blocked ? '🔓 Разблок' : '🔒 Блок'}</button><button class="btn btn-danger btn-sm" onclick="removeUser(${u.id})">🗑️ Удалить</button>` : '<span style="color: #00d4ff; font-weight: 600;">Администратор</span>'}</div></div>`).join('')}</div></div><div class="tab-content hidden" id="appointments"><h2>Все записи к врачам</h2><table class="data-table"><thead><tr><th>Пациент</th><th>Врач</th><th>Дата</th><th>Время</th><th>Статус</th></tr></thead><tbody>${database.appointments.map(a => {const patient = database.users.find(u => u.id === a.patientId); const doctor = database.doctors.find(d => d.id === a.doctorId); return `<tr><td>${patient?.name || 'н/д'}</td><td>${doctor?.name || 'н/д'}</td><td>${a.date}</td><td>${a.time}</td><td><span class="badge">${a.status}</span></td></tr>`;}).join('')}</tbody></table></div><div class="tab-content hidden" id="create-doctor"><h2>Создать аккаунт врача</h2><form id="create-doctor-form" class="form-box"><div class="form-group"><label>Имя врача</label><input type="text" id="doctor-name" placeholder="Доктор Иванов" required /></div><div class="form-group"><label>Email</label><input type="email" id="doctor-email" placeholder="doctor@clinic.ru" required /></div><div class="form-group"><label>Пароль</label><input type="password" id="doctor-password" placeholder="Минимум 4 символа" required /></div><button type="submit" class="btn btn-primary">Создать врача →</button></form></div><div class="tab-content hidden" id="articles"><h2>📰 Управление статьями</h2><div style="margin-bottom: 2rem;"><h3 style="margin-top: 0;">Опубликовать новую статью</h3><form id="publish-article-form" class="form-box"><div class="form-group"><label>Заголовок</label><input type="text" id="article-title" placeholder="Название статьи" required /></div><div class="form-group"><label>Категория</label><input type="text" id="article-category" placeholder="Например: Кардиология" required /></div><div class="form-group"><label>Иконка (эмодзи)</label><input type="text" id="article-icon" placeholder="❤️" required /></div><div class="form-group"><label>Содержание</label><textarea id="article-content" placeholder="Напишите содержание статьи..." required></textarea></div><button type="submit" class="btn btn-primary">Опубликовать →</button></form></div><h3>Все статьи</h3><div class="card-grid">${database.articles.map(a => `<div class="card"><div style="font-size: 2rem; margin-bottom: 1rem;">${a.icon}</div><h3 style="margin-top: 0;">${a.title}</h3><p><strong>Категория:</strong> ${a.category}</p><p style="margin-top: 1rem;">${a.content}</p><button class="btn btn-danger btn-sm" onclick="deleteArticle(${a.id})">🗑️ Удалить</button></div>`).join('')}</div></div></div></div></div>`;
 }
 
 // ===== AI CHAT =====
@@ -828,14 +441,7 @@ function sendAIMessage() {
   const response = medicalAI.processQuestion(question);
   const chatBox = document.getElementById('ai-messages');
   
-  chatBox.innerHTML += `
-    <div class="ai-message user-msg">
-      <div class="msg-text">👤 ${question}</div>
-    </div>
-    <div class="ai-message bot-msg">
-      <div class="msg-text">${response}</div>
-    </div>
-  `;
+  chatBox.innerHTML += `<div class="ai-message user-msg"><div class="msg-text">👤 ${question}</div></div><div class="ai-message bot-msg"><div class="msg-text">${response}</div></div>`;
   
   chatBox.scrollTop = chatBox.scrollHeight;
   input.value = '';
