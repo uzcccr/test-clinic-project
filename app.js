@@ -96,20 +96,19 @@ function loadDatabase() {
     database = JSON.parse(saved);
   }
   
-  const savedUser = localStorage.getItem('currentUser');
-  const lastEmail = localStorage.getItem('lastLoginEmail');
+  const userEmail = localStorage.getItem('currentUserEmail');
   
-  if (savedUser && lastEmail) {
-    const userFromDB = database.users.find(u => u.email === lastEmail);
+  if (userEmail) {
+    const userFromDB = database.users.find(u => u.email === userEmail);
     if (userFromDB && !userFromDB.blocked) {
       currentUser = { ...userFromDB };
     } else {
       currentUser = null;
       localStorage.removeItem('currentUser');
-      localStorage.removeItem('lastLoginEmail');
+      localStorage.removeItem('currentUserEmail');
     }
   }
-}
+}}
 
 function saveDatabase() {
   localStorage.setItem('medportData', JSON.stringify(database));
@@ -133,9 +132,9 @@ function login(email, password) {
   }
   currentUser = { ...user };
   localStorage.setItem('currentUser', JSON.stringify(currentUser));
-  localStorage.setItem('lastLoginEmail', email);
+  localStorage.setItem('currentUserEmail', user.email);
   renderApp();
-}
+}}
 
 function register(name, email, password, passwordConfirm) {
   if (!name || !email || !password) {
@@ -182,9 +181,9 @@ function logout() {
   isRegistering = false;
   showAIChat = false;
   localStorage.removeItem('currentUser');
-  localStorage.removeItem('lastLoginEmail');
+  localStorage.removeItem('currentUserEmail');
   renderApp();
-}
+}}
 
 // ===== APPOINTMENTS =====
 function bookAppointment(doctorId, date, time) {
